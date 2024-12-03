@@ -1,0 +1,221 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.price_checker"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="34" />
+10    <!--
+11         The INTERNET permission is required for development. Specifically,
+12         the Flutter tool needs it to communicate with the running application
+13         to allow setting breakpoints, to provide hot reload, etc.
+14    -->
+15    <uses-permission android:name="android.permission.INTERNET" />
+15-->C:\Users\User\Downloads\price_checker-master\android\app\src\debug\AndroidManifest.xml:6:5-66
+15-->C:\Users\User\Downloads\price_checker-master\android\app\src\debug\AndroidManifest.xml:6:22-64
+16
+17    <uses-feature android:name="android.hardware.camera" />
+17-->C:\Users\User\Downloads\price_checker-master\android\app\src\main\AndroidManifest.xml:3:5-4:49
+17-->C:\Users\User\Downloads\price_checker-master\android\app\src\main\AndroidManifest.xml:4:9-47
+18
+19    <uses-permission android:name="android.permission.CAMERA" />
+19-->C:\Users\User\Downloads\price_checker-master\android\app\src\main\AndroidManifest.xml:6:5-65
+19-->C:\Users\User\Downloads\price_checker-master\android\app\src\main\AndroidManifest.xml:6:22-62
+20    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+20-->C:\Users\User\Downloads\price_checker-master\android\app\src\main\AndroidManifest.xml:7:5-75
+20-->C:\Users\User\Downloads\price_checker-master\android\app\src\main\AndroidManifest.xml:7:22-72
+21    <!--
+22 Required to query activities that can process text, see:
+23         https://developer.android.com/training/package-visibility and
+24         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
+25
+26         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin.
+27    -->
+28    <queries>
+28-->C:\Users\User\Downloads\price_checker-master\android\app\src\main\AndroidManifest.xml:53:5-58:15
+29        <intent>
+29-->C:\Users\User\Downloads\price_checker-master\android\app\src\main\AndroidManifest.xml:54:9-57:18
+30            <action android:name="android.intent.action.PROCESS_TEXT" />
+30-->C:\Users\User\Downloads\price_checker-master\android\app\src\main\AndroidManifest.xml:55:13-72
+30-->C:\Users\User\Downloads\price_checker-master\android\app\src\main\AndroidManifest.xml:55:21-70
+31
+32            <data android:mimeType="text/plain" />
+32-->C:\Users\User\Downloads\price_checker-master\android\app\src\main\AndroidManifest.xml:56:13-50
+32-->C:\Users\User\Downloads\price_checker-master\android\app\src\main\AndroidManifest.xml:56:19-48
+33        </intent>
+34    </queries>
+35
+36    <uses-permission android:name="android.permission.FLASHLIGHT" />
+36-->[:flutter_barcode_scanner] C:\Users\User\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_barcode_scanner-2.0.0\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:5-69
+36-->[:flutter_barcode_scanner] C:\Users\User\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_barcode_scanner-2.0.0\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:22-66
+37
+38    <permission
+38-->[androidx.core:core:1.13.1] C:\Users\User\.gradle\caches\transforms-3\346c25a6878977533560503d630e13eb\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
+39        android:name="com.example.price_checker.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+39-->[androidx.core:core:1.13.1] C:\Users\User\.gradle\caches\transforms-3\346c25a6878977533560503d630e13eb\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
+40        android:protectionLevel="signature" />
+40-->[androidx.core:core:1.13.1] C:\Users\User\.gradle\caches\transforms-3\346c25a6878977533560503d630e13eb\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
+41
+42    <uses-permission android:name="com.example.price_checker.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+42-->[androidx.core:core:1.13.1] C:\Users\User\.gradle\caches\transforms-3\346c25a6878977533560503d630e13eb\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
+42-->[androidx.core:core:1.13.1] C:\Users\User\.gradle\caches\transforms-3\346c25a6878977533560503d630e13eb\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
+43
+44    <application
+45        android:name="android.app.Application"
+46        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+46-->[androidx.core:core:1.13.1] C:\Users\User\.gradle\caches\transforms-3\346c25a6878977533560503d630e13eb\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
+47        android:debuggable="true"
+48        android:extractNativeLibs="true"
+49        android:icon="@mipmap/ic_launcher"
+50        android:label="price_checker"
+51        android:largeHeap="true"
+51-->[:flutter_barcode_scanner] C:\Users\User\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_barcode_scanner-2.0.0\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:14:9-33
+52        android:theme="@style/Theme.AppCompat.NoActionBar" >
+52-->[:flutter_barcode_scanner] C:\Users\User\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_barcode_scanner-2.0.0\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:15:9-59
+53        <receiver
+54            android:name="com.example.price_checker.ScannerBroadcastReceiver"
+55            android:exported="true" >
+56            <intent-filter>
+57                <action android:name="nlscan.action.SCANNER_RESULT" />
+58            </intent-filter>
+59        </receiver>
+60
+61        <activity
+62            android:name="com.example.price_checker.MainActivity"
+63            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+64            android:exported="true"
+65            android:hardwareAccelerated="true"
+66            android:launchMode="singleTop"
+67            android:taskAffinity=""
+68            android:theme="@style/LaunchTheme"
+69            android:windowSoftInputMode="adjustResize" >
+70
+71            <!--
+72                 Specifies an Android theme to apply to this Activity as soon as
+73                 the Android process has started. This theme is visible to the user
+74                 while the Flutter UI initializes. After that, this theme continues
+75                 to determine the Window background behind the Flutter UI.
+76            -->
+77            <meta-data
+78                android:name="io.flutter.embedding.android.NormalTheme"
+79                android:resource="@style/NormalTheme" />
+80
+81            <intent-filter>
+82                <action android:name="android.intent.action.MAIN" />
+83
+84                <category android:name="android.intent.category.LAUNCHER" />
+85            </intent-filter>
+86        </activity>
+87        <!--
+88             Don't delete the meta-data below.
+89             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+90        -->
+91        <meta-data
+92            android:name="flutterEmbedding"
+93            android:value="2" />
+94
+95        <activity android:name="com.amolg.flutterbarcodescanner.BarcodeCaptureActivity" />
+95-->[:flutter_barcode_scanner] C:\Users\User\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_barcode_scanner-2.0.0\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:16:9-91
+95-->[:flutter_barcode_scanner] C:\Users\User\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_barcode_scanner-2.0.0\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:16:19-88
+96        <activity
+96-->[:url_launcher_android] C:\Users\User\AppData\Local\Pub\Cache\hosted\pub.dev\url_launcher_android-6.3.9\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:9-11:74
+97            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+97-->[:url_launcher_android] C:\Users\User\AppData\Local\Pub\Cache\hosted\pub.dev\url_launcher_android-6.3.9\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:13-74
+98            android:exported="false"
+98-->[:url_launcher_android] C:\Users\User\AppData\Local\Pub\Cache\hosted\pub.dev\url_launcher_android-6.3.9\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:10:13-37
+99            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+99-->[:url_launcher_android] C:\Users\User\AppData\Local\Pub\Cache\hosted\pub.dev\url_launcher_android-6.3.9\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:13-71
+100
+101        <uses-library
+101-->[androidx.window:window:1.2.0] C:\Users\User\.gradle\caches\transforms-3\1718e39f51c320e87d06763196201110\transformed\jetified-window-1.2.0\AndroidManifest.xml:23:9-25:40
+102            android:name="androidx.window.extensions"
+102-->[androidx.window:window:1.2.0] C:\Users\User\.gradle\caches\transforms-3\1718e39f51c320e87d06763196201110\transformed\jetified-window-1.2.0\AndroidManifest.xml:24:13-54
+103            android:required="false" />
+103-->[androidx.window:window:1.2.0] C:\Users\User\.gradle\caches\transforms-3\1718e39f51c320e87d06763196201110\transformed\jetified-window-1.2.0\AndroidManifest.xml:25:13-37
+104        <uses-library
+104-->[androidx.window:window:1.2.0] C:\Users\User\.gradle\caches\transforms-3\1718e39f51c320e87d06763196201110\transformed\jetified-window-1.2.0\AndroidManifest.xml:26:9-28:40
+105            android:name="androidx.window.sidecar"
+105-->[androidx.window:window:1.2.0] C:\Users\User\.gradle\caches\transforms-3\1718e39f51c320e87d06763196201110\transformed\jetified-window-1.2.0\AndroidManifest.xml:27:13-51
+106            android:required="false" />
+106-->[androidx.window:window:1.2.0] C:\Users\User\.gradle\caches\transforms-3\1718e39f51c320e87d06763196201110\transformed\jetified-window-1.2.0\AndroidManifest.xml:28:13-37
+107
+108        <activity
+108-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\User\.gradle\caches\transforms-3\7db186f9acb98e122eb70e0be4311beb\transformed\jetified-play-services-base-17.4.0\AndroidManifest.xml:23:9-26:75
+109            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+109-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\User\.gradle\caches\transforms-3\7db186f9acb98e122eb70e0be4311beb\transformed\jetified-play-services-base-17.4.0\AndroidManifest.xml:24:13-79
+110            android:exported="false"
+110-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\User\.gradle\caches\transforms-3\7db186f9acb98e122eb70e0be4311beb\transformed\jetified-play-services-base-17.4.0\AndroidManifest.xml:25:13-37
+111            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+111-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\User\.gradle\caches\transforms-3\7db186f9acb98e122eb70e0be4311beb\transformed\jetified-play-services-base-17.4.0\AndroidManifest.xml:26:13-72
+112
+113        <meta-data
+113-->[com.google.android.gms:play-services-basement:17.4.0] C:\Users\User\.gradle\caches\transforms-3\a07fab7bdfa6175334267032a5ea95ab\transformed\jetified-play-services-basement-17.4.0\AndroidManifest.xml:23:9-25:69
+114            android:name="com.google.android.gms.version"
+114-->[com.google.android.gms:play-services-basement:17.4.0] C:\Users\User\.gradle\caches\transforms-3\a07fab7bdfa6175334267032a5ea95ab\transformed\jetified-play-services-basement-17.4.0\AndroidManifest.xml:24:13-58
+115            android:value="@integer/google_play_services_version" />
+115-->[com.google.android.gms:play-services-basement:17.4.0] C:\Users\User\.gradle\caches\transforms-3\a07fab7bdfa6175334267032a5ea95ab\transformed\jetified-play-services-basement-17.4.0\AndroidManifest.xml:25:13-66
+116
+117        <provider
+117-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\User\.gradle\caches\transforms-3\6c95f7100314dd4459b2e8d96f709e0a\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:24:9-32:20
+118            android:name="androidx.startup.InitializationProvider"
+118-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\User\.gradle\caches\transforms-3\6c95f7100314dd4459b2e8d96f709e0a\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:25:13-67
+119            android:authorities="com.example.price_checker.androidx-startup"
+119-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\User\.gradle\caches\transforms-3\6c95f7100314dd4459b2e8d96f709e0a\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:26:13-68
+120            android:exported="false" >
+120-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\User\.gradle\caches\transforms-3\6c95f7100314dd4459b2e8d96f709e0a\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:27:13-37
+121            <meta-data
+121-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\User\.gradle\caches\transforms-3\6c95f7100314dd4459b2e8d96f709e0a\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:29:13-31:52
+122                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+122-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\User\.gradle\caches\transforms-3\6c95f7100314dd4459b2e8d96f709e0a\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:30:17-78
+123                android:value="androidx.startup" />
+123-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\User\.gradle\caches\transforms-3\6c95f7100314dd4459b2e8d96f709e0a\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:31:17-49
+124            <meta-data
+124-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+125                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+125-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+126                android:value="androidx.startup" />
+126-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+127        </provider>
+128
+129        <receiver
+129-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+130            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+130-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+131            android:directBootAware="false"
+131-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+132            android:enabled="true"
+132-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+133            android:exported="true"
+133-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+134            android:permission="android.permission.DUMP" >
+134-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+135            <intent-filter>
+135-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+136                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+136-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+136-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+137            </intent-filter>
+138            <intent-filter>
+138-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+139                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+139-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+139-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+140            </intent-filter>
+141            <intent-filter>
+141-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+142                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+142-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+142-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+143            </intent-filter>
+144            <intent-filter>
+144-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+145                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+145-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+145-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\User\.gradle\caches\transforms-3\804f913aa5b4890236676ad1f21ba9ae\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+146            </intent-filter>
+147        </receiver>
+148    </application>
+149
+150</manifest>
