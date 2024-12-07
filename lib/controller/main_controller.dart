@@ -10,7 +10,6 @@ import 'package:mssql_connection/mssql_connection.dart';
 import 'package:mysql_client/mysql_client.dart';
 import 'package:price_checker/utils/constants/api_constans.dart';
 
-import '../utils/helpers/database_connector.dart';
 import '../utils/helpers/persistance_helper.dart';
 import '../utils/string_constants.dart';
 
@@ -20,8 +19,7 @@ class MainController extends GetxController {
 
   static const platform = MethodChannel('scanner_channel');
   final _sqlConnection = MssqlConnection.getInstance();
-
-
+  FocusNode focusNode = FocusNode();
 
   // Reactive Variables
   var getItemID = "".obs;
@@ -36,7 +34,7 @@ class MainController extends GetxController {
   var productID = "".obs;
   var productName = "".obs;
   var productPrice = "".obs;
-  var productDetailsMap ={}.obs;
+  var productDetailsMap = {}.obs;
 
   // MySQL connection
   static MySQLConnection? _connection;
@@ -45,25 +43,11 @@ class MainController extends GetxController {
   void onInit() {
     super.onInit();
     // Set up method channel to listen for barcode results.
-    platform.setMethodCallHandler((call) async {
-      if (call.method == 'onBarcodeScanned') {
-        barcode.value = call.arguments; // Update the barcode value.
-      }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      focusNode.requestFocus();
     });
-  }
-
-  void startScan() async {
-    const scanIntent = 'nlscan.action.SCANNER_TRIG';
-
-    try {
-      // Attempt to start the scanner
-      await platform.invokeMethod('startScanner', {'intent': scanIntent});
-    } on PlatformException catch (e) {
-      // If the scanner is not available, use the fallback barcode scanner
-      print('Error: Scanner not available, using fallback scanner. $e');
-
-      await scanBarCode();
-    }
+    HardwareKeyboard.instance.addHandler(_handleKeyEvent);
+    print("Init state on count -----");
   }
 
   // Scan Barcode Method
@@ -79,12 +63,14 @@ class MainController extends GetxController {
       print('$result ----------------------- Barcode value ------');
 
       if (result != '-1') {
-      // var result = "6290429015714";
+        // var result = "6290429015714";
         barcode.value = result;
-        productDetails.value =result.toString();
+        productDetails.value = result.toString();
 
         print('Attempting to fetch product details...${barcode.value}');
-         await fetchProductMSSql(productCode: barcode.value, tableName: table.value,);
+        await fetchProductMSSql(
+          productCode: barcode.value,
+        );
 
         if (productDetails.value.isNotEmpty) {
           print('Product details fetched successfully: $productDetails');
@@ -98,7 +84,6 @@ class MainController extends GetxController {
       print('Error in scanBarCode: $e');
     }
   }
-
 
   // Initialize Database
   Future<void> initializeDatabase() async {
@@ -127,15 +112,15 @@ class MainController extends GetxController {
     }
   }
 
-  Future<dynamic> fetchProductMSSql({required String productCode,required String tableName}) async {
+  Future<dynamic> fetchProductMSSql({required String productCode}) async {
     try {
       server.value = await HelperServices.getServerData(StringConstants.server);
       database.value =
-      await HelperServices.getServerData(StringConstants.dataBase);
+          await HelperServices.getServerData(StringConstants.dataBase);
       userName.value =
-      await HelperServices.getServerData(StringConstants.userName);
+          await HelperServices.getServerData(StringConstants.userName);
       password.value =
-      await HelperServices.getServerData(StringConstants.password);
+          await HelperServices.getServerData(StringConstants.password);
       table.value = await HelperServices.getServerData(StringConstants.table);
 
       // Connect to the database
@@ -143,8 +128,11 @@ class MainController extends GetxController {
         ip: server.value,
         port: '1433',
         databaseName: database.value,
-        username: userName.value,
-        password: password.value,
+        // username: userName.value,
+        // password: password.value,
+        username: "silveradmin",
+        password: "admin\$ilver",
+        timeoutInSeconds: 1,
       );
 
       if (!isConnected) {
@@ -153,31 +141,49 @@ class MainController extends GetxController {
       }
 
       // Construct the SQL query with dynamic table name
-      String query = '''
-        SELECT *
-        FROM [$tableName]
-        WHERE product_code = '[$productCode]'
-      ''';
+      String query =
+          "SELECT * FROM ${table.value} WHERE product_code= '$productCode'";
 
       // Prepare the parameters
+      print(query);
 
       // Execute the query
       String result = await _sqlConnection.getData(query);
 
+      var data = jsonDecode(result);
+
+      // fetch corresponding product details
+      var product = data.first;
+
+      productDetails.value = product["name"].toString();
+      productID.value = product["id"].toString();
+      productPrice.value = product["price"].toString();
+      print(product["id"]);
+      print(product["name"] + "----- details");
+
+      print(data.length);
+      // Edit text clear values
+      getItemController.text = "";
+
       // Close the connection
       bool isDisconnected = await _sqlConnection.disconnect();
 
-      List data = jsonDecode(result);
-      productDetails.value = data.first["name"];
-
-
       if (isDisconnected) {
-        print('Successfully disconnected from SQL Server');
+        print(table.value);
+        print(server.value);
+        print(database.value);
+        print(userName.value);
+        print(password.value);
+        print(productCode);
+        print('Successfully connected from SQL Server');
+        // Request the focus node after fetching product
+        focusNode.requestFocus();
       } else {
         print('Failed to disconnect from SQL Server');
       }
 
       return json.decode(result);
+
     } catch (e) {
       print('Error fetching product data: $e');
       return null;
@@ -195,13 +201,12 @@ class MainController extends GetxController {
 
       var query = 'SELECT * FROM $table WHERE product_code = :id';
 
-
       var result = await _connection!.execute(
         query,
         {'id': barcode},
       );
 
-      print(result.toString()+"---------result");
+      print(result.toString() + "---------result");
 
       if (result.rows.isNotEmpty) {
         // productDetails.value = jsonDecode(result.rows.toString());
@@ -210,7 +215,8 @@ class MainController extends GetxController {
         productName.value = productDetailsMap["product_name"].toString();
         productPrice.value = productDetailsMap["price"].toString();
         print(productDetails);
-        print(productDetailsMap.toString() + "-------------------- result==--------------");
+        print(productDetailsMap.toString() +
+            "-------------------- result==--------------");
         print('${result.rows}---------------- Output');
         return result.rows.first.assoc();
       } else {
@@ -221,20 +227,20 @@ class MainController extends GetxController {
     }
   }
 
-
-Future<dynamic> getProductDetails(productCode)async{
+  Future<dynamic> getProductDetails(productCode) async {
     try {
       server.value = await HelperServices.getServerData(StringConstants.server);
       database.value =
-      await HelperServices.getServerData(StringConstants.dataBase);
+          await HelperServices.getServerData(StringConstants.dataBase);
       userName.value =
-      await HelperServices.getServerData(StringConstants.userName);
+          await HelperServices.getServerData(StringConstants.userName);
       password.value =
-      await HelperServices.getServerData(StringConstants.password);
+          await HelperServices.getServerData(StringConstants.password);
       table.value = await HelperServices.getServerData(StringConstants.table);
-      print("APi integration with server${server.value} === ${userName
-          .value} === $table");
-      var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/get_data'));
+      print(
+          "APi integration with server${server.value} === ${userName.value} === $table");
+      var request =
+          http.MultipartRequest('POST', Uri.parse('$baseUrl/get_data'));
       request.fields.addAll({
         'userName': userName.value,
         'dataBase': database.value,
@@ -243,29 +249,47 @@ Future<dynamic> getProductDetails(productCode)async{
         'productCode': productCode
       });
 
-
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         print("Response==========");
-       var result =await response.stream.bytesToString();
+        var result = await response.stream.bytesToString();
 
-       productDetailsMap.value =  jsonDecode(result);
-       print(productDetailsMap.values);
-       productName.value = productDetailsMap["product"]["name"].toString();
-       productID.value = productDetailsMap["product"]["id"].toString();
-       productPrice.value = productDetailsMap["product"]["price"].toString();
-       return productDetailsMap.values;
-      }
-      else {
+        productDetailsMap.value = jsonDecode(result);
+        print(productDetailsMap.values);
+        productName.value = productDetailsMap["product"]["name"].toString();
+        productID.value = productDetailsMap["product"]["id"].toString();
+        productPrice.value = productDetailsMap["product"]["price"].toString();
+        return productDetailsMap.values;
+      } else {
         print(response.reasonPhrase);
         throw Exception("Api request error ${response.statusCode}");
       }
-
-    }catch(e){
+    } catch (e) {
       print("Exception ---------> $e");
+    }
+  }
 
+  bool _handleKeyEvent(KeyEvent event) {
+    String _scannerData = "";
+    var output = "";
+
+    // print(event.character);
+    _scannerData += event.character ?? "";
+    output = _scannerData;
+    if (output != '' && output.length > 12) {
+      // if (output.contains('\n')) {
+      output = output.replaceAll('\n', '');
+      // }
+      fetchProductMSSql(productCode: output);
     }
 
-}
+    if (event.logicalKey == LogicalKeyboardKey.enter) {
+      barcode.value = output;
+      getItemController.text = output;
+      _scannerData = "";
+      output = "";
+    }
+    return false;
+  }
 }

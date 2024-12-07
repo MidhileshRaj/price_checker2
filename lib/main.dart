@@ -5,6 +5,7 @@ import 'package:price_checker/routes/bindings.dart';
 import 'package:price_checker/screens/configuration_screen.dart';
 
 void main()async{
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
