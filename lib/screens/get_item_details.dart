@@ -5,7 +5,6 @@ import 'package:price_checker/screens/configuration_screen.dart';
 
 import '../controller/main_controller.dart';
 
-
 class GetItemDetails extends StatelessWidget {
   const GetItemDetails({super.key});
 
@@ -13,7 +12,7 @@ class GetItemDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<MainController>();
     // controller.initializeDatabase();
-    // controller.focusNode.requestFocus();
+    controller.focusNode.requestFocus();
 
     return Container(
       decoration: const BoxDecoration(
@@ -23,68 +22,77 @@ class GetItemDetails extends StatelessWidget {
         ),
       ),
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          automaticallyImplyLeading: false,
-          actions: [
-            IconButton(
-              onPressed: () {
-                Get.to(() => const ConfigurationScreen());
-              },
-              icon: const Icon(Icons.settings,color: Colors.white,),
-            )
-          ],
-        ),
+       floatingActionButton: FloatingActionButton(onPressed: () {
+      Get.to(() => const ConfigurationScreen());
+      },backgroundColor: Colors.white60,child: const Icon(Icons.settings),),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.transparent,
+        //   automaticallyImplyLeading: false,
+        //   actions: [
+        //     IconButton(
+        //       onPressed: () {
+        //         Get.to(() => const ConfigurationScreen());
+        //       },
+        //       icon: const Icon(
+        //         Icons.settings,
+        //         color: Colors.white,
+        //       ),
+        //     )
+        //   ],
+        // ),
         backgroundColor: Colors.transparent,
         body: Stack(
           children: [
+            /// Keystroke event catching textfield - Hidden
             Positioned(
               top: 10,
               child: Center(
-                child: SizedBox(width: MediaQuery.sizeOf(context).width,
+                child: SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
                   child: TextField(
                     controller: controller.getItemController,
                     focusNode: controller.focusNode,
                     onTapAlwaysCalled: true,
-                    onTapOutside: (value){
-                      if(controller.getItemController.text.length>12){
-                        controller.fetchProductMSSql(productCode: controller.getItemController.text);
+                    keyboardType: TextInputType.none,
+                    onTapOutside: (value) {
+                      if (controller.getItemController.text.length > 12) {
+                        controller.fetchProductMSSql(
+                            productCode: controller.getItemController.text);
                       }
-
                     },
                     cursorColor: Colors.transparent,
                     onChanged: (value) {
-                      if(value.length>12){
+                      if (value.length > 12) {
                         controller.fetchProductMSSql(productCode: value);
                       }
-                      if(value.isEmpty){
+                      if (value.isEmpty) {
                         controller.focusNode.requestFocus();
                       }
-
                     },
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.transparent),
                     decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide.none),
 
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide.none
-                        ),
-
-                        suffix: IconButton(onPressed: (){
-                          controller.fetchProductMSSql(productCode: controller.getItemController.text);
-                        }, icon: Icon(Icons.arrow_circle_down_sharp, color: Colors.white,size: 25,))
+                      // suffix: IconButton(onPressed: (){
+                      //   controller.fetchProductMSSql(productCode: controller.getItemController.text);
+                      // }, icon: Icon(Icons.arrow_circle_down_sharp, color: Colors.white,size: 25,))
                     ),
-                  ),),
+                  ),
+                ),
               ),
             ),
+
             Positioned(
+              top: 0,
               left: MediaQuery.sizeOf(context).width * .2,
               right: MediaQuery.sizeOf(context).width * .2,
               child: ClipPath(
                 clipper: CustomCurveClipper(),
                 child: Container(
                   color: Colors.white, // Background color for the content area
-                  height: MediaQuery.of(context).size.height * .65,
+                  height: MediaQuery.of(context).size.height *.75,
                   width: MediaQuery.of(context).size.width * 0.6,
                 ),
               ),
@@ -93,17 +101,18 @@ class GetItemDetails extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height: 30,),
+                  const SizedBox(
+                    height: 30,
+                  ),
                   // Logo
                   SizedBox(
                     height: MediaQuery.sizeOf(context).height * .22,
                     width: MediaQuery.sizeOf(context).width * .28,
-                    child: Image(
+                    child: const Image(
                       image: AssetImage("assets/images/al-madina.png"),
                       fit: BoxFit.fill,
                     ),
                   ),
-
 
                   // Lottie Animation
                   SizedBox(
@@ -113,20 +122,18 @@ class GetItemDetails extends StatelessWidget {
                   ),
 
                   // Item Details Area
-
-
                 ],
               ),
             ),
             Obx(() {
               // Display product details reactively
-              if (controller.productDetails.value == "No product selected") {
+              if (controller.productDetails.value == "No product selected.") {
                 return Positioned(
                   bottom: 100,
                   left: MediaQuery.sizeOf(context).width * .2,
                   right: MediaQuery.sizeOf(context).width * .2,
-                  child: Center(
-                    child: const Text(
+                  child: const Center(
+                    child: Text(
                       "DETAILS WILL BE DISPLAYED HERE.",
                       style: TextStyle(color: Colors.white),
                     ),
@@ -134,101 +141,95 @@ class GetItemDetails extends StatelessWidget {
                 );
               } else {
                 return
-                  // Text(controller.productDetails.value.toString(),style: TextStyle(color: Colors.white),);
-                  Positioned(
-                    bottom: 10,
-                    left: MediaQuery.sizeOf(context).width * .2,
-                    right: MediaQuery.sizeOf(context).width * .2,
-                    child: Center(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        height: MediaQuery.of(context).size.height * 0.32,
-                        decoration: BoxDecoration(
-                          color: Colors.green.shade600.withOpacity(.9), // Dark background color
+                    // Text(controller.productDetails.value.toString(),style: TextStyle(color: Colors.white),);
+                   /// Product details display
+                    Positioned(
+                  bottom: 50,
+                  left: MediaQuery.sizeOf(context).width * .1,
+                  right: MediaQuery.sizeOf(context).width * .1,
+                  child: Center(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      height: MediaQuery.of(context).size.height * 0.60,
+                      decoration: BoxDecoration(
+                          color: Colors.green.shade600
+                              .withOpacity(.9), // Dark background color
                           borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            // Barcode Area
-                            Expanded(
-                              flex: 2,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Barcode No:",
-                                    style: TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const Text(
-                                    "7110100922789",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 23,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 8),
+                          image: const DecorationImage(
+                            image:
+                                AssetImage("assets/images/product-details.png"),
+                            filterQuality: FilterQuality.high,
+                            fit: BoxFit.cover,opacity: .9,
+                          )),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          // Barcode Area
 
-                            // Product Name and Price Area
-                            Expanded(
-                              flex: 3,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "PRODUCT NAME ",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ), const Text(
-                                    "Product Description ",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 21,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                          // Product Name and Price Area
+                          Expanded(
+                            flex: 3,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  controller.productName.value.toString(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  const Spacer(),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5, vertical: 5),
-                                        decoration: BoxDecoration(
-                                          color: Colors.amber,
-                                          borderRadius: BorderRadius.circular(5),
-                                        ),
-                                        child: const Text(
-                                          "1.95 Rs",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                ),
+                                Text(
+                                  controller.productDetails.value.toString(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ],
-                              ),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  "AED " +
+                                      controller.productPrice.value.toString(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 50,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Ojuju'
+                                  ),
+                                )
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.end,
+                                  //   children: [
+                                //
+                                //     Container(
+                                //       padding: const EdgeInsets.symmetric(
+                                //           horizontal: 5, vertical: 5),
+                                //       decoration: BoxDecoration(
+                                //         color: Colors.amber,
+                                //         borderRadius: BorderRadius.circular(5),
+                                //       ),
+                                //       child:  Text(
+                                //         controller.productPrice.value.toString(),
+                                //         style: TextStyle(
+                                //           color: Colors.black,
+                                //           fontSize: 20,
+                                //           fontWeight: FontWeight.bold,
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  );
+                  ),
+                );
               }
             })
           ],
@@ -243,12 +244,13 @@ class CustomCurveClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     Path path = Path();
     path.moveTo(0, 0); // Start at the top-left corner
-    path.lineTo(0, size.height * 0.8); // Extend further down for the vertical section
+    path.lineTo(
+        0, size.height * 0.6); // Extend further down for the vertical section
     path.quadraticBezierTo(
       size.width * 0.5,
       size.height, // Control point for bottom curve
       size.width,
-      size.height * 0.8, // End point of the curve
+      size.height * 0.6, // End point of the curve
     );
     path.lineTo(size.width, 0); // Top-right corner
     path.close();
