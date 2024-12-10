@@ -188,6 +188,10 @@ class MainController extends GetxController {
 
     } catch (e) {
       print('Error fetching product data: $e');
+      productDetails.value= "No product available";
+      productPrice.value= "--";
+      productID.value= "--";
+      getItemController.text = "";
       return null;
     }
   }
@@ -283,6 +287,7 @@ class MainController extends GetxController {
       // if (output.contains('\n')) {
       output = output.replaceAll('\n', '');
       // }
+      print(output);
       fetchProductMSSql(productCode: output);
     }
 
