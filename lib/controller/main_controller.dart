@@ -178,6 +178,8 @@ class MainController extends GetxController {
         print('Successfully connected from SQL Server');
         // Request the focus node after fetching product
         focusNode.requestFocus();
+        hideProductDetails();
+
       } else {
         print('Failed to disconnect from SQL Server');
       }
@@ -296,5 +298,13 @@ class MainController extends GetxController {
       output = "";
     }
     return false;
+  }
+  hideProductDetails(){
+    if (productDetails.value != "No product selected."){
+      Future.delayed(Duration(seconds: 15),(){
+        productDetails.value ="No product selected.";
+      });
+
+    }
   }
 }
