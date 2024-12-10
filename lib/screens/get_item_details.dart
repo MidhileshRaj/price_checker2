@@ -22,7 +22,7 @@ class GetItemDetails extends StatelessWidget {
         ),
       ),
       child: Scaffold(
-<<<<<<< HEAD
+
        floatingActionButton: FloatingActionButton(onPressed: () {
       Get.to(() => const ConfigurationScreen());
       },backgroundColor: Colors.white60,child: const Icon(Icons.settings),),
@@ -123,239 +123,112 @@ class GetItemDetails extends StatelessWidget {
                   ),
 
                   // Item Details Area
+
                 ],
               ),
-=======
-        /// test button
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          automaticallyImplyLeading: false,
-          actions: [
-            IconButton(
-              onPressed: () {
-                Get.to(() => const ConfigurationScreen());
-              },
-              icon: const Icon(Icons.settings),
-            )
-          ],
-        ),
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text(
-                  "GET ITEM PRICE",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.sizeOf(context).width * .6,
-                      child: TextField(
-                        controller: controller.getItemController,
-                        focusNode: controller.focusNode,
-                        keyboardType: TextInputType.none,
-                        cursorColor: Colors.transparent,
-                        onTapOutside: (event) {
-                          if (controller.getItemController.text.length > 12) {
-                            controller.fetchProductMSSql(productCode: controller.getItemController.text);
-                          }
-                        },
-                        onChanged: (value) {
-                          if (value.length > 12) {
-                            controller.fetchProductMSSql(productCode: value);
-                          }
-                          if (value.isEmpty) {
-                            controller.focusNode.requestFocus();
-                          }
-                        },
-                        style: const TextStyle(color: Colors.transparent),
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide.none),
-
-                          // suffix: IconButton(onPressed: (){
-                          //   controller.fetchProductMSSql(productCode: controller.getItemController.text);
-                          // }, icon: Icon(Icons.arrow_circle_down_sharp, color: Colors.white,size: 25,))
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Obx(() {
-                  // Display product details reactively
-                  if (controller.productDetails.value ==
-                      "No product selected.") {
-                    return const Text(
-                      "Details will be displayed here.",
-                      style: TextStyle(color: Colors.white),
-                    );
-                  } else {
-                    return
-                        // Text(controller.productDetails.value.toString(),style: TextStyle(color: Colors.white),);
-                        Card(
-                      child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: MediaQuery.sizeOf(context).height * .2,
-                            width: MediaQuery.sizeOf(context).width * .70,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              // image: const DecorationImage(
-                              //   image: AssetImage(
-                              //       "assets/images/yellow_background.jpg"),
-                              //   fit: BoxFit.fill,
-                              //   opacity: .7,
-                              // ),
-                            ),
-                            child: controller.productID.value.isEmpty
-                                ? const Text("Item Not Found")
-                                : ListTile(
-                                    // leading: Text(
-                                    //     controller.productID.value,
-                                    //     style: const TextStyle(
-                                    //       fontWeight: FontWeight.bold,fontSize: 20
-                                    //     ),
-                                    //   ),
-                                    title: Text(
-                                      controller.productDetails.value,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
-                                    ),
-                                    subtitle: Text(
-                                      controller.productPrice.value.toString(),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                  ),
-                          )),
-                    );
-                  }
-                }),
-              ],
->>>>>>> master
             ),
-            Obx(() {
-              // Display product details reactively
-              if (controller.productDetails.value == "No product selected.") {
-                return Positioned(
-                  bottom: 100,
-                  left: MediaQuery.sizeOf(context).width * .2,
-                  right: MediaQuery.sizeOf(context).width * .2,
-                  child: const Center(
+            Positioned(
+              bottom: 100,
+              left: MediaQuery.sizeOf(context).width * .1,
+              right: MediaQuery.sizeOf(context).width * .1,
+              child: Obx(() {
+                // Display product details reactively
+                if (controller.productDetails.value == "No product selected.") {
+                  return const Center(
                     child: Text(
                       "DETAILS WILL BE DISPLAYED HERE.",
                       style: TextStyle(color: Colors.white),
                     ),
-                  ),
-                );
-              } else {
-                return
+                  );
+                } else {
+                  return
                     // Text(controller.productDetails.value.toString(),style: TextStyle(color: Colors.white),);
-                   /// Product details display
-                    Positioned(
-                  bottom: 50,
-                  left: MediaQuery.sizeOf(context).width * .1,
-                  right: MediaQuery.sizeOf(context).width * .1,
-                  child: Center(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      height: MediaQuery.of(context).size.height * 0.60,
-                      decoration: BoxDecoration(
-                          color: Colors.green.shade600
-                              .withOpacity(.9), // Dark background color
-                          borderRadius: BorderRadius.circular(10),
-                          image: const DecorationImage(
-                            image:
-                                AssetImage("assets/images/product-details.png"),
-                            filterQuality: FilterQuality.high,
-                            fit: BoxFit.cover,opacity: .9,
-                          )),
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          // Barcode Area
+                    /// Product details display
+                    Center(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.60,
+                        decoration: BoxDecoration(
+                            color: Colors.green.shade600
+                                .withOpacity(.9), // Dark background color
+                            borderRadius: BorderRadius.circular(10),
+                            image: const DecorationImage(
+                              image:
+                              AssetImage("assets/images/product-details.png"),
+                              filterQuality: FilterQuality.high,
+                              fit: BoxFit.cover,opacity: .9,
+                            )),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            // Barcode Area
 
-                          // Product Name and Price Area
-                          Expanded(
-                            flex: 3,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  controller.productName.value.toString(),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold,
+                            // Product Name and Price Area
+                            Expanded(
+                              flex: 3,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    controller.productName.value.toString(),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  controller.productDetails.value.toString(),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
+                                  Text(
+                                    controller.productDetails.value.toString(),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  "AED " +
-                                      controller.productPrice.value.toString(),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 50,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Ojuju'
-                                  ),
-                                )
-                                // Row(
-                                //   mainAxisAlignment: MainAxisAlignment.end,
+                                  const Spacer(),
+                                  Text(
+                                    "AED " +
+                                        controller.productPrice.value.toString(),
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 50,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Ojuju'
+                                    ),
+                                  )
+                                  // Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.end,
                                   //   children: [
-                                //
-                                //     Container(
-                                //       padding: const EdgeInsets.symmetric(
-                                //           horizontal: 5, vertical: 5),
-                                //       decoration: BoxDecoration(
-                                //         color: Colors.amber,
-                                //         borderRadius: BorderRadius.circular(5),
-                                //       ),
-                                //       child:  Text(
-                                //         controller.productPrice.value.toString(),
-                                //         style: TextStyle(
-                                //           color: Colors.black,
-                                //           fontSize: 20,
-                                //           fontWeight: FontWeight.bold,
-                                //         ),
-                                //       ),
-                                //     ),
-                                //   ],
-                                // ),
-                              ],
+                                  //
+                                  //     Container(
+                                  //       padding: const EdgeInsets.symmetric(
+                                  //           horizontal: 5, vertical: 5),
+                                  //       decoration: BoxDecoration(
+                                  //         color: Colors.amber,
+                                  //         borderRadius: BorderRadius.circular(5),
+                                  //       ),
+                                  //       child:  Text(
+                                  //         controller.productPrice.value.toString(),
+                                  //         style: TextStyle(
+                                  //           color: Colors.black,
+                                  //           fontSize: 20,
+                                  //           fontWeight: FontWeight.bold,
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              }
-            })
+                    );
+                }
+              }),
+            )
           ],
         ),
       ),
