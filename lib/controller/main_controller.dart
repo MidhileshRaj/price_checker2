@@ -155,7 +155,9 @@ class MainController extends GetxController {
       // fetch corresponding product details
       var product = data.first;
 
+
       productDetails.value = product["name"].toString();
+      productName.value = product["name"].toString();
       productID.value = product["id"].toString();
       productPrice.value = product["price"].toString();
       print(product["id"]);

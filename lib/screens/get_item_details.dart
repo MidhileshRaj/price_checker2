@@ -17,7 +17,7 @@ class GetItemDetails extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/bg.jpg"),
+          image: AssetImage("assets/images/main-bg.jpg"),
           fit: BoxFit.cover,
         ),
       ),
@@ -84,7 +84,7 @@ class GetItemDetails extends StatelessWidget {
                 ),
               ),
             ),
-
+            // Arch shape widget
             Positioned(
               top: 0,
               left: MediaQuery.sizeOf(context).width * .2,
@@ -128,7 +128,7 @@ class GetItemDetails extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: 100,
+              bottom: 90,
               left: MediaQuery.sizeOf(context).width * .1,
               right: MediaQuery.sizeOf(context).width * .1,
               child: Obx(() {
@@ -144,86 +144,90 @@ class GetItemDetails extends StatelessWidget {
                   return
                     // Text(controller.productDetails.value.toString(),style: TextStyle(color: Colors.white),);
                     /// Product details display
-                    Center(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        height: MediaQuery.of(context).size.height * 0.60,
-                        decoration: BoxDecoration(
-                            color: Colors.green.shade600
-                                .withOpacity(.9), // Dark background color
-                            borderRadius: BorderRadius.circular(10),
-                            image: const DecorationImage(
-                              image:
-                              AssetImage("assets/images/product-details.png"),
-                              filterQuality: FilterQuality.high,
-                              fit: BoxFit.cover,opacity: .9,
-                            )),
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            // Barcode Area
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: MediaQuery.of(context).size.height * 0.57,
+                      decoration: BoxDecoration(
+                          color: Colors.green.shade600
+                              .withOpacity(.9), // Dark background color
+                          borderRadius: BorderRadius.circular(60),
+                          image: const DecorationImage(
+                            image:
+                            AssetImage("assets/images/product-details.png"),
+                            filterQuality: FilterQuality.high,
+                            fit: BoxFit.cover,opacity: .9,
+                          )),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(decoration:BoxDecoration(
+                      color:Color(0xFF8ac43e).withOpacity(.6),
+                        borderRadius: BorderRadius.circular(45),),
+                            child: Text(
 
-                            // Product Name and Price Area
-                            Expanded(
-                              flex: 3,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    controller.productName.value.toString(),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    controller.productDetails.value.toString(),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    "AED " +
-                                        controller.productPrice.value.toString(),
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 50,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Ojuju'
-                                    ),
-                                  )
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.end,
-                                  //   children: [
-                                  //
-                                  //     Container(
-                                  //       padding: const EdgeInsets.symmetric(
-                                  //           horizontal: 5, vertical: 5),
-                                  //       decoration: BoxDecoration(
-                                  //         color: Colors.amber,
-                                  //         borderRadius: BorderRadius.circular(5),
-                                  //       ),
-                                  //       child:  Text(
-                                  //         controller.productPrice.value.toString(),
-                                  //         style: TextStyle(
-                                  //           color: Colors.black,
-                                  //           fontSize: 20,
-                                  //           fontWeight: FontWeight.bold,
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                ],
+                              controller.productName.value.toString(),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 45,
+                                  fontFamily: 'RobotoCondensed'
+                                // fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                          // Text(
+                          //   controller.productDetails.value.toString(),
+                          //   style: const TextStyle(
+                          //     color: Colors.white,
+                          //     fontSize: 45,
+                          //     fontWeight: FontWeight.bold,
+                          //     fontFamily: 'RobotoCondensed'
+                          //   ),
+                          // ),
+                          const SizedBox(height: 25,),
+                          Container(
+                           decoration:BoxDecoration(
+                             color:Color(0xFF8ac43e).withOpacity(.6),
+                             borderRadius: BorderRadius.circular(45)
+                           ),
+                            padding:EdgeInsets.all(10),
+                            child: Text(
+                              "AED " +
+                                  controller.productPrice.value.toString(),
+                              style:  TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 70,
+                                  fontWeight: FontWeight.w900,
+                                  fontFamily: 'RobotoCondensed',
+
+                              ),
+                            ),
+                          ),
+
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.end,
+                          //   children: [
+                          //
+                          //     Container(
+                          //       padding: const EdgeInsets.symmetric(
+                          //           horizontal: 5, vertical: 5),
+                          //       decoration: BoxDecoration(
+                          //         color: Colors.amber,
+                          //         borderRadius: BorderRadius.circular(5),
+                          //       ),
+                          //       child:  Text(
+                          //         controller.productPrice.value.toString(),
+                          //         style: TextStyle(
+                          //           color: Colors.black,
+                          //           fontSize: 20,
+                          //           fontWeight: FontWeight.bold,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
+                        ],
                       ),
                     );
                 }
