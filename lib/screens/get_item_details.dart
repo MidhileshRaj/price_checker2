@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:price_checker/screens/configuration_screen.dart';
+import 'package:price_checker/utils/constants/colors.dart';
 import 'package:price_checker/utils/constants/image_strings.dart';
 import 'package:price_checker/utils/constants/images_constants.dart';
 import 'package:price_checker/utils/devices/device_utilities.dart';
@@ -84,8 +86,8 @@ class GetItemDetails extends StatelessWidget {
                 clipper: CustomCurveClipper(),
                 child: Container(
                   color: Colors.white, // Background color for the content area
-                  height: height * .75,
-                  width: width * 0.6,
+                  height: height * .45,
+                  width: width * 0.5,
                 ),
               ),
             ),
@@ -100,22 +102,50 @@ class GetItemDetails extends StatelessWidget {
                   SizedBox(
                     height: height * .22,
                     width: width * .28,
-                    child:  Image(
+                    child: Image(
                       image: AssetImage(ImageStrings.alMadina),
                       fit: BoxFit.fill,
                     ),
                   ),
 
                   // Lottie Animation
-                  SizedBox(
-                    height: 300,
-                    width: 300,
-                    child: Lottie.asset(ImageStrings.lottieDown),
-                  ),
-
                   // Item Details Area
-
                 ],
+              ),
+            ),
+            Positioned(
+              top: height * .68,
+              left: width * .1,
+              right: width * .1,
+              child: SizedBox(
+                height: 250,
+                width: 450,
+                child: Lottie.asset(ImageStrings.lottieDown),
+              ),
+            ),
+            Positioned(
+              bottom: height * .25,
+              left: width * .1,
+              right: width * .1,
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    
+                    color: MyAppColors.primary.withOpacity(.5),
+                    borderRadius: BorderRadius.circular(30)
+                  ),
+                  child: Text(
+                    "Scan Here",
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 45,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ),
             ),
             Positioned(
@@ -123,10 +153,10 @@ class GetItemDetails extends StatelessWidget {
               left: height * .1,
               right: width * .1,
               child: Obx(
-                    () {
+                () {
                   return OutPutWidget(
                       productDetails: controller.productDetails.value,
-                      productPrice: controller.productDetails.value,
+                      productPrice: controller.productPrice.value,
                       productName: controller.productDetails.value,
                       backgroundImage: ImageStrings.detailsBackground,
                       height: height,

@@ -4,7 +4,7 @@ class StringConstants{
 
   ///Text Values
   static const String noProduct = "No product selected.";
-  static const String alternativeResult = "DETAILS WILL BE DISPLAYED HERE.";
+  static const String alternativeResult = "";
 
 
 

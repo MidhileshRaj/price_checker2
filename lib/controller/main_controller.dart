@@ -159,6 +159,7 @@ class MainController extends GetxController {
       productDetails.value = product["name"].toString();
       productName.value = product["name"].toString();
       productID.value = product["id"].toString();
+      print(product["price"]);
       productPrice.value = product["price"].toString();
       print(product["id"]);
       print(product["name"] + "----- details");
