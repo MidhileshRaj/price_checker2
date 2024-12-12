@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:price_checker/screens/configuration_screen.dart';
+import 'package:price_checker/utils/constants/image_strings.dart';
+import 'package:price_checker/utils/constants/images_constants.dart';
+import 'package:price_checker/utils/devices/device_utilities.dart';
 
 import '../controller/main_controller.dart';
+import '../utils/theme/custom_clippers.dart';
+import 'widget/output_widgets.dart';
 
 class GetItemDetails extends StatelessWidget {
   const GetItemDetails({super.key});
@@ -11,36 +16,26 @@ class GetItemDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<MainController>();
+    final height = MyAppDeviceUtils.getScreenHeight();
+    final width = MyAppDeviceUtils.getScreenWidth();
     // controller.initializeDatabase();
 
     controller.focusNode.requestFocus();
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/main-bg.jpg"),
+          image: AssetImage(ImageStrings.background),
           fit: BoxFit.cover,
         ),
       ),
       child: Scaffold(
-
-       floatingActionButton: FloatingActionButton(onPressed: () {
-      Get.to(() => const ConfigurationScreen());
-      },backgroundColor: Colors.white60,child: const Icon(Icons.settings),),
-        // appBar: AppBar(
-        //   backgroundColor: Colors.transparent,
-        //   automaticallyImplyLeading: false,
-        //   actions: [
-        //     IconButton(
-        //       onPressed: () {
-        //         Get.to(() => const ConfigurationScreen());
-        //       },
-        //       icon: const Icon(
-        //         Icons.settings,
-        //         color: Colors.white,
-        //       ),
-        //     )
-        //   ],
-        // ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Get.to(() => const ConfigurationScreen());
+          },
+          backgroundColor: Colors.white60,
+          child: const Icon(Icons.settings),
+        ),
         backgroundColor: Colors.transparent,
         body: Stack(
           children: [
@@ -49,7 +44,7 @@ class GetItemDetails extends StatelessWidget {
               top: 10,
               child: Center(
                 child: SizedBox(
-                  width: MediaQuery.sizeOf(context).width,
+                  width: width,
                   child: TextField(
                     controller: controller.getItemController,
                     focusNode: controller.focusNode,
@@ -75,10 +70,6 @@ class GetItemDetails extends StatelessWidget {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide: BorderSide.none),
-
-                      // suffix: IconButton(onPressed: (){
-                      //   controller.fetchProductMSSql(productCode: controller.getItemController.text);
-                      // }, icon: Icon(Icons.arrow_circle_down_sharp, color: Colors.white,size: 25,))
                     ),
                   ),
                 ),
@@ -87,14 +78,14 @@ class GetItemDetails extends StatelessWidget {
             // Arch shape widget
             Positioned(
               top: 0,
-              left: MediaQuery.sizeOf(context).width * .2,
-              right: MediaQuery.sizeOf(context).width * .2,
+              left: width * .2,
+              right: width * .2,
               child: ClipPath(
                 clipper: CustomCurveClipper(),
                 child: Container(
                   color: Colors.white, // Background color for the content area
-                  height: MediaQuery.of(context).size.height *.75,
-                  width: MediaQuery.of(context).size.width * 0.6,
+                  height: height * .75,
+                  width: width * 0.6,
                 ),
               ),
             ),
@@ -107,10 +98,10 @@ class GetItemDetails extends StatelessWidget {
                   ),
                   // Logo
                   SizedBox(
-                    height: MediaQuery.sizeOf(context).height * .22,
-                    width: MediaQuery.sizeOf(context).width * .28,
-                    child: const Image(
-                      image: AssetImage("assets/images/al-madina.png"),
+                    height: height * .22,
+                    width: width * .28,
+                    child:  Image(
+                      image: AssetImage(ImageStrings.alMadina),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -119,7 +110,7 @@ class GetItemDetails extends StatelessWidget {
                   SizedBox(
                     height: 300,
                     width: 300,
-                    child: Lottie.asset('assets/lottie/main.json'),
+                    child: Lottie.asset(ImageStrings.lottieDown),
                   ),
 
                   // Item Details Area
@@ -129,135 +120,23 @@ class GetItemDetails extends StatelessWidget {
             ),
             Positioned(
               bottom: 90,
-              left: MediaQuery.sizeOf(context).width * .1,
-              right: MediaQuery.sizeOf(context).width * .1,
-              child: Obx(() {
-                // Display product details reactively
-                if (controller.productDetails.value == "No product selected.") {
-                  return const Center(
-                    child: Text(
-                      "DETAILS WILL BE DISPLAYED HERE.",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  );
-                } else {
-                  return
-                    // Text(controller.productDetails.value.toString(),style: TextStyle(color: Colors.white),);
-                    /// Product details display
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      height: MediaQuery.of(context).size.height * 0.57,
-                      decoration: BoxDecoration(
-                          color: Colors.green.shade600
-                              .withOpacity(.9), // Dark background color
-                          borderRadius: BorderRadius.circular(60),
-                          image: const DecorationImage(
-                            image:
-                            AssetImage("assets/images/product-details.png"),
-                            filterQuality: FilterQuality.high,
-                            fit: BoxFit.cover,opacity: .9,
-                          )),
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(decoration:BoxDecoration(
-                      color:Color(0xFF8ac43e).withOpacity(.6),
-                        borderRadius: BorderRadius.circular(45),),
-                            child: Text(
-
-                              controller.productName.value.toString(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 45,
-                                  fontFamily: 'RobotoCondensed'
-                                // fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          // Text(
-                          //   controller.productDetails.value.toString(),
-                          //   style: const TextStyle(
-                          //     color: Colors.white,
-                          //     fontSize: 45,
-                          //     fontWeight: FontWeight.bold,
-                          //     fontFamily: 'RobotoCondensed'
-                          //   ),
-                          // ),
-                          const SizedBox(height: 25,),
-                          Container(
-                           decoration:BoxDecoration(
-                             color:Color(0xFF8ac43e).withOpacity(.6),
-                             borderRadius: BorderRadius.circular(45)
-                           ),
-                            padding:EdgeInsets.all(10),
-                            child: Text(
-                              "AED " +
-                                  controller.productPrice.value.toString(),
-                              style:  TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 70,
-                                  fontWeight: FontWeight.w900,
-                                  fontFamily: 'RobotoCondensed',
-
-                              ),
-                            ),
-                          ),
-
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.end,
-                          //   children: [
-                          //
-                          //     Container(
-                          //       padding: const EdgeInsets.symmetric(
-                          //           horizontal: 5, vertical: 5),
-                          //       decoration: BoxDecoration(
-                          //         color: Colors.amber,
-                          //         borderRadius: BorderRadius.circular(5),
-                          //       ),
-                          //       child:  Text(
-                          //         controller.productPrice.value.toString(),
-                          //         style: TextStyle(
-                          //           color: Colors.black,
-                          //           fontSize: 20,
-                          //           fontWeight: FontWeight.bold,
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                        ],
-                      ),
-                    );
-                }
-              }),
-            )
+              left: height * .1,
+              right: width * .1,
+              child: Obx(
+                    () {
+                  return OutPutWidget(
+                      productDetails: controller.productDetails.value,
+                      productPrice: controller.productDetails.value,
+                      productName: controller.productDetails.value,
+                      backgroundImage: ImageStrings.detailsBackground,
+                      height: height,
+                      width: width);
+                },
+              ),
+            ),
           ],
         ),
       ),
     );
   }
-}
-
-class CustomCurveClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.moveTo(0, 0); // Start at the top-left corner
-    path.lineTo(
-        0, size.height * 0.6); // Extend further down for the vertical section
-    path.quadraticBezierTo(
-      size.width * 0.5,
-      size.height, // Control point for bottom curve
-      size.width,
-      size.height * 0.6, // End point of the curve
-    );
-    path.lineTo(size.width, 0); // Top-right corner
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
