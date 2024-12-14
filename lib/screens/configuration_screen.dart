@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:price_checker/controller/configuration_controller.dart';
+import 'package:price_checker/utils/constants/colors.dart';
 import '../utils/helpers/persistance_helper.dart';
 import '../utils/widgets/button_widget.dart';
 import '../utils/widgets/custom_text_field_design.dart';
@@ -26,7 +27,7 @@ class ConfigurationScreen extends StatelessWidget {
               const Text(
                 "Database Config.",
                 style: TextStyle(
-                  color: Colors.indigo,
+                  color: MyAppColors.primary,
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                   fontStyle: FontStyle.italic,
@@ -60,6 +61,32 @@ class ConfigurationScreen extends StatelessWidget {
                 hint: '12345678',
                 controller: controller.passwordController.value,
               ),
+              const SizedBox(height: 20),
+              const Text(
+                "Column details",
+                style: TextStyle(
+                  color: MyAppColors.primary,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Obx(() => ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: controller.dynamicTextControllers.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: CustomTextFieldDesign(
+                      label: 'Column Name ${index + 1}',
+                      hint: 'example_column',
+                      controller: controller.dynamicTextControllers[index],
+                    ),
+                  );
+                },
+              )),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -80,10 +107,13 @@ class ConfigurationScreen extends StatelessWidget {
                   ),
                 ],
               ),
+
             ],
           )),
         ),
       ),
+      floatingActionButton: FloatingActionButton(onPressed: controller.addTextField,
+        child: const Icon(Icons.add_circle),),
     );
   }
 }

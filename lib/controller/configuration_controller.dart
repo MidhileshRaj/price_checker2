@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:price_checker/utils/constants/colors.dart';
 
 import '../utils/helpers/persistance_helper.dart';
 import '../utils/string_constants.dart';
@@ -17,6 +18,22 @@ class ConfigurationController extends GetxController {
   // Reactive variable for enabling/disabling text fields
   var enableTextField = true.obs;
 
+
+  /// Dynamic textfield add method
+  var dynamicTextControllers = <TextEditingController>[].obs;
+  void addTextField() {
+    if (dynamicTextControllers.length < 10) {
+      dynamicTextControllers.add(TextEditingController());
+    } else {
+      Get.snackbar(
+        "Limit Reached",
+        "You can only add up to 10 extra columns.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: MyAppColors.warning,
+        colorText: Colors.white,
+      );
+    }
+  }
   // Initialize configuration
   @override
   void onInit() {

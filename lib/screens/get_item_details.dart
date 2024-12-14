@@ -5,7 +5,6 @@ import 'package:lottie/lottie.dart';
 import 'package:price_checker/screens/configuration_screen.dart';
 import 'package:price_checker/utils/constants/colors.dart';
 import 'package:price_checker/utils/constants/image_strings.dart';
-import 'package:price_checker/utils/constants/images_constants.dart';
 import 'package:price_checker/utils/devices/device_utilities.dart';
 
 import '../controller/main_controller.dart';
