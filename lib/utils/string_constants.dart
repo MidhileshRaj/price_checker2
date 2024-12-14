@@ -1,6 +1,11 @@
 class StringConstants{
-  static const String baseURL = "http://192.168.20.2:4000";
-  static const String yellowBackground = "assets/images/yello_background.jpeg";
+  StringConstants._();
+
+
+  ///Text Values
+  static const String noProduct = "No product selected.";
+  static const String alternativeResult = "";
+
 
 
   /// Configuration KeyWord
@@ -17,6 +22,8 @@ class StringConstants{
   static const String port = "port";
   static const String ipAddress = "ipAddress";
   static const String password = "password";
+  static const String columnName = "column";
+
 }
 
 
