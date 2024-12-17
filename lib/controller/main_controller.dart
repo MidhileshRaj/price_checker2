@@ -21,12 +21,18 @@ class MainController extends GetxController {
   final _sqlConnection = MssqlConnection.getInstance();
   FocusNode focusNode = FocusNode();
 
-  // Reactive Variables
+  // Reactive Variables for database configuration
   var getItemID = "".obs;
   var isConnected = false.obs;
   var barcode = "".obs;
   var server = "".obs;
   var table = "".obs;
+  var itemCodeColumn = "".obs;
+  var itemSalesPriceColumn = "".obs;
+  var itemNameColumn = "".obs;
+
+  /// Product details
+
   var userName = "".obs;
   var database = "".obs;
   var password = "".obs;
@@ -94,6 +100,9 @@ class MainController extends GetxController {
         await HelperServices.getServerData(StringConstants.userName);
     password.value =
         await HelperServices.getServerData(StringConstants.password);
+    itemCodeColumn.value = await HelperServices.getServerData(StringConstants.itemCode);
+    itemNameColumn.value = await HelperServices.getServerData(StringConstants.itemName);
+    itemSalesPriceColumn.value = await HelperServices.getServerData(StringConstants.salesPrice);
     table.value = await HelperServices.getServerData(StringConstants.table);
 
     print("${server.value} === ${userName.value} === $table");
@@ -122,6 +131,9 @@ class MainController extends GetxController {
       password.value =
           await HelperServices.getServerData(StringConstants.password);
       table.value = await HelperServices.getServerData(StringConstants.table);
+      itemCodeColumn.value = await HelperServices.getServerData(StringConstants.itemCode);
+      itemNameColumn.value = await HelperServices.getServerData(StringConstants.itemName);
+      itemSalesPriceColumn.value = await HelperServices.getServerData(StringConstants.salesPrice);
 
       // Connect to the database
       bool isConnected = await _sqlConnection.connect(
@@ -142,7 +154,7 @@ class MainController extends GetxController {
 
       // Construct the SQL query with dynamic table name
       String query =
-          "SELECT * FROM ${table.value} WHERE product_code= '$productCode'";
+          "SELECT * FROM ${table.value} WHERE ${itemCodeColumn.value}= '$productCode'";
 
       // Prepare the parameters
       print(query);
@@ -156,13 +168,13 @@ class MainController extends GetxController {
       var product = data.first;
 
 
-      productDetails.value = product["name"].toString();
-      productName.value = product["name"].toString();
+      productDetails.value = product[itemNameColumn.value].toString();
+      productName.value = product[itemNameColumn.value].toString();
       productID.value = product["id"].toString();
-      print(product["price"]);
-      productPrice.value = product["price"].toString();
+      print(product[itemSalesPriceColumn.value]);
+      productPrice.value = product[itemSalesPriceColumn].toString();
       print(product["id"]);
-      print(product["name"] + "----- details");
+      print(product[itemNameColumn] + "----- details");
 
       print(data.length);
       // Edit text clear values

@@ -13,14 +13,16 @@ class ConfigurationController extends GetxController {
   var userNameController = TextEditingController().obs;
   var passwordController = TextEditingController().obs;
   var ipAddressController = TextEditingController().obs;
-
+  var itemCodeController = TextEditingController().obs;
+  var nameColumnController = TextEditingController().obs;
+  var priceColumnController = TextEditingController().obs;
 
   // Reactive variable for enabling/disabling text fields
   var enableTextField = true.obs;
 
-
   /// Dynamic textfield add method
   var dynamicTextControllers = <TextEditingController>[].obs;
+
   void addTextField() {
     if (dynamicTextControllers.length < 10) {
       dynamicTextControllers.add(TextEditingController());
@@ -34,6 +36,7 @@ class ConfigurationController extends GetxController {
       );
     }
   }
+
   // Initialize configuration
   @override
   void onInit() {
@@ -45,6 +48,10 @@ class ConfigurationController extends GetxController {
     var server = await HelperServices.getServerData(StringConstants.server);
     var table = await HelperServices.getServerData(StringConstants.table);
     var database = await HelperServices.getServerData(StringConstants.dataBase);
+    var itemCode = await HelperServices.getServerData(StringConstants.itemCode);
+    var itemName = await HelperServices.getServerData(StringConstants.itemName);
+    var salesPrice =
+        await HelperServices.getServerData(StringConstants.salesPrice);
 
     var isConfigured = await HelperServices.checkConfiguration();
 
@@ -54,14 +61,15 @@ class ConfigurationController extends GetxController {
       serverNameController.value.text = server;
       dataBaseNameController.value.text = database;
       tableNameController.value.text = table;
-
+      itemCodeController.value.text = itemCode;
+      nameColumnController.value.text = itemName;
+      priceColumnController.value.text = salesPrice;
     } else {
       enableTextField.value = true;
 
-      serverNameController.value.text = "192.168.20.2:4000";
+      serverNameController.value.text = "192.168.20.2";
       dataBaseNameController.value.text = "techsysdb";
       tableNameController.value.text = "products";
-
     }
   }
 
@@ -77,6 +85,12 @@ class ConfigurationController extends GetxController {
         StringConstants.password, passwordController.value.text);
     await HelperServices.saveServerData(
         StringConstants.userName, userNameController.value.text);
+    await HelperServices.saveServerData(
+        StringConstants.itemCode, itemCodeController.value.text);
+    await HelperServices.saveServerData(
+        StringConstants.itemName, nameColumnController.value.text);
+    await HelperServices.saveServerData(
+        StringConstants.salesPrice, priceColumnController.value.text);
     await HelperServices.setConfiguration(true);
   }
 }

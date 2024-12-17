@@ -14,6 +14,7 @@ class StringConstants{
   static const String dataBase = "dataBase";
   static const String table = "table";
   static const String itemCode = "itemCode";
+  static const String itemName = "itemName";
   static const String itemDesc = "itemDesc";
   static const String arabicDecs = "arabicDecs";
   static const String salesPrice = "salesPrice";

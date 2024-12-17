@@ -62,6 +62,8 @@ class ConfigurationScreen extends StatelessWidget {
                 controller: controller.passwordController.value,
               ),
               const SizedBox(height: 20),
+
+              /// Table Column Details
               const Text(
                 "Column details",
                 style: TextStyle(
@@ -71,21 +73,19 @@ class ConfigurationScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              Obx(() => ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: controller.dynamicTextControllers.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: CustomTextFieldDesign(
-                      label: 'Column Name ${index + 1}',
-                      hint: 'example_column',
-                      controller: controller.dynamicTextControllers[index],
-                    ),
-                  );
-                },
-              )),
+              CustomTextFieldDesign(
+                label: 'Barcode Column',
+                hint: 'eg:- product_code',
+                controller: controller.itemCodeController.value,
+              ),CustomTextFieldDesign(
+                label: 'Product Name Column',
+                hint: 'eg:- itemName',
+                controller: controller.nameColumnController.value,
+              ),CustomTextFieldDesign(
+                label: 'Price Column',
+                hint: 'eg:- itemPrice',
+                controller: controller.priceColumnController.value,
+              ),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -112,8 +112,7 @@ class ConfigurationScreen extends StatelessWidget {
           )),
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: controller.addTextField,
-        child: const Icon(Icons.add_circle),),
+
     );
   }
 }
