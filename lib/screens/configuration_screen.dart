@@ -15,6 +15,7 @@ class ConfigurationScreen extends StatelessWidget {
     // Initialize the controller
     final controller = Get.find<ConfigurationController>();
 
+
     // Ensure initialization logic is executed
     controller.configurePageInitialization();
 

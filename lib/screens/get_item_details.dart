@@ -20,6 +20,9 @@ class GetItemDetails extends StatelessWidget {
     final height = MyAppDeviceUtils.getScreenHeight();
     final width = MyAppDeviceUtils.getScreenWidth();
     // controller.initializeDatabase();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.focusNode.requestFocus();
+    });
 
     controller.focusNode.requestFocus();
     return Container(
@@ -99,10 +102,10 @@ class GetItemDetails extends StatelessWidget {
                   ),
                   // Logo
                   SizedBox(
-                    height: height * .22,
-                    width: width * .28,
+                    height: height * .23,
+                    width: width * .23,
                     child: Image(
-                      image: AssetImage(ImageStrings.alMadina),
+                      image: AssetImage(ImageStrings.alSafeer),
                       fit: BoxFit.fill,
                     ),
                   ),

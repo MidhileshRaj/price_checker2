@@ -49,9 +49,7 @@ class MainController extends GetxController {
   void onInit() {
     super.onInit();
     // Set up method channel to listen for barcode results.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      focusNode.requestFocus();
-    });
+
     HardwareKeyboard.instance.addHandler(_handleKeyEvent);
     print("Init state on count -----");
   }
@@ -140,10 +138,8 @@ class MainController extends GetxController {
         ip: server.value,
         port: '1433',
         databaseName: database.value,
-        // username: userName.value,
-        // password: password.value,
-        username: "silveradmin",
-        password: "admin\$ilver",
+        username: userName.value,
+        password: password.value,
         timeoutInSeconds: 1,
       );
 
@@ -172,7 +168,7 @@ class MainController extends GetxController {
       productName.value = product[itemNameColumn.value].toString();
       productID.value = product["id"].toString();
       print(product[itemSalesPriceColumn.value]);
-      productPrice.value = product[itemSalesPriceColumn].toString();
+      productPrice.value = product[itemSalesPriceColumn].toStringAsFixed(2);
       print(product["id"]);
       print(product[itemNameColumn] + "----- details");
 
@@ -205,8 +201,10 @@ class MainController extends GetxController {
       print('Error fetching product data: $e');
       productDetails.value= "No product available";
       productPrice.value= "--";
-      productID.value= "--";
+      productID.value="" ;
       getItemController.text = "";
+      focusNode.requestFocus();
+      hideProductDetails();
       return null;
     }
   }

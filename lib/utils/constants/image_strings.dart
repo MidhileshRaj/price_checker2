@@ -7,6 +7,7 @@ class ImageStrings{
 
   /// Logo demo
   static String alMadina = "assets/images/al-madina.png";
+  static String alSafeer = "assets/images/al-safeer.png";
 
   /// Lottie
   static String lottieDown = 'assets/lottie/down-arrow.json';
