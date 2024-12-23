@@ -99,21 +99,29 @@ class GetItemDetails extends StatelessWidget {
                   ),
                   // Arch shape widget with carousel
                   controller.showCarousel.value?Center(
-                    child:  SizedBox(
+                    child:  controller.imageFiles.isEmpty? SizedBox(
+                      height: height * .6,
+                      width: width * .8,
+                      child: Image(
+                        image: AssetImage(ImageStrings.alSafeer),
+                        fit: BoxFit.fill,
+                      ),
+                    ):SizedBox(
                         height: min(width / 3.3 * (16 / 9),height*.9),
                         child:CarouselSlider(
                           options: CarouselOptions(height: height*.7,autoPlay: true,),
-                          items: controller.imageLinks.map((i) {
-                            print(i);
+                          items: controller.imageFiles.map((i) {
+
                             return Builder(
                               builder: (BuildContext context) {
+
                                 return Container(
                                     width: MediaQuery.of(context).size.width,
-                                    margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                    decoration: BoxDecoration(
+                                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                                    decoration: const BoxDecoration(
                                         color: Colors.amber
                                     ),
-                                    child:Image(image: NetworkImage(i.toString()),fit: BoxFit.cover,)
+                                    child:Image(image: FileImage(i),fit: BoxFit.cover,)
                                 );
                               },
                             );
@@ -135,7 +143,7 @@ class GetItemDetails extends StatelessWidget {
                       ),
                     ),
                   ),
-                  controller.showCarousel.value?SizedBox():
+                  controller.showCarousel.value?const SizedBox():
                   Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -168,20 +176,20 @@ class GetItemDetails extends StatelessWidget {
                       child: Lottie.asset(ImageStrings.lottieDown),
                     ),
                   ),
-                 controller.showCarousel.value?SizedBox(): Positioned(
+                 controller.showCarousel.value?const SizedBox(): Positioned(
                     bottom: height * .25,
                     left: width * .1,
                     right: width * .1,
                     child: Center(
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             color: MyAppColors.primary.withOpacity(.5),
                             borderRadius: BorderRadius.circular(30)),
                         child: Text(
                           "Scan Here",
                           style: GoogleFonts.montserrat(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 45,
                                 fontWeight: FontWeight.bold),
@@ -191,7 +199,7 @@ class GetItemDetails extends StatelessWidget {
                       ),
                     ),
                   ),
-                 controller.showCarousel.value?SizedBox(): Positioned(
+                 controller.showCarousel.value?const SizedBox(): Positioned(
                       bottom: 90,
                       left: height * .1,
                       right: width * .1,
