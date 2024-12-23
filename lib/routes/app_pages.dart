@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:price_checker/routes/bindings.dart';
 import 'package:price_checker/screens/configuration_screen.dart';
 
+import '../screens/add_slider_images.dart';
 import '../screens/get_item_details.dart';
 import 'app_routes.dart';
 
@@ -15,6 +16,10 @@ class AppPages {
     ), GetPage(
       name: Routes.main,
       page: () => const GetItemDetails(),
+      binding: MyAppBindings(),
+    ),GetPage(
+      name: Routes.adImages,
+      page: () =>  const AddSliderImages(),
       binding: MyAppBindings(),
     ),
   ];

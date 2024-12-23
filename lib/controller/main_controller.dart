@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -20,6 +21,7 @@ class MainController extends GetxController {
   static const platform = MethodChannel('scanner_channel');
   final _sqlConnection = MssqlConnection.getInstance();
   FocusNode focusNode = FocusNode();
+  var imageLinks = <String>[].obs;
 
   // Reactive Variables for database configuration
   var getItemID = "".obs;
@@ -42,8 +44,42 @@ class MainController extends GetxController {
   var productPrice = "".obs;
   var productDetailsMap = {}.obs;
 
+
+
+
   // MySQL connection
   static MySQLConnection? _connection;
+   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+
+  final RxBool showCarousel = false.obs;
+  Timer? _inactivityTimer;
+
+
+  openDrawerMethod(){
+    scaffoldKey.currentState?.openEndDrawer();
+  }
+
+
+  /// Inactive Screen saver
+  void resetInactivityTimer() {
+    _inactivityTimer?.cancel();
+    showCarousel.value = false; // Hide carousel if it was showing
+    _inactivityTimer = Timer(const Duration(minutes: 1), () {
+      if(imageLinks.isNotEmpty) {
+        showCarousel.value = true;
+        // Show carousel after 1 minute
+      }
+    });
+  }
+
+  @override
+  void onClose() {
+    _inactivityTimer?.cancel();
+    super.onClose();
+  }
+
+
 
   @override
   void onInit() {
@@ -52,6 +88,11 @@ class MainController extends GetxController {
 
     HardwareKeyboard.instance.addHandler(_handleKeyEvent);
     print("Init state on count -----");
+  }
+
+  // Check Images saved on devices for slide show
+  checkAvailableImages()async{
+    imageLinks.value = await HelperServices.getListOfItems(StringConstants.imageLinks);
   }
 
   // Scan Barcode Method
@@ -119,6 +160,7 @@ class MainController extends GetxController {
     }
   }
 
+  /// MsSql data fetching
   Future<dynamic> fetchProductMSSql({required String productCode}) async {
     try {
       server.value = await HelperServices.getServerData(StringConstants.server);
@@ -134,6 +176,7 @@ class MainController extends GetxController {
       itemSalesPriceColumn.value = await HelperServices.getServerData(StringConstants.salesPrice);
 
       // Connect to the database
+      resetInactivityTimer();
       bool isConnected = await _sqlConnection.connect(
         ip: server.value,
         port: '1433',
@@ -289,6 +332,7 @@ class MainController extends GetxController {
     }
   }
 
+  /// Keystroke handler
   bool _handleKeyEvent(KeyEvent event) {
     String _scannerData = "";
     var output = "";
@@ -298,6 +342,7 @@ class MainController extends GetxController {
     output = _scannerData;
     if (output != '' && output.length > 12) {
       // if (output.contains('\n')) {
+
       output = output.replaceAll('\n', '');
       // }
       print(output);
@@ -312,6 +357,8 @@ class MainController extends GetxController {
     }
     return false;
   }
+
+  /// Hide product
   hideProductDetails(){
     if (productDetails.value != "No product selected."){
       Future.delayed(Duration(seconds: 15),(){

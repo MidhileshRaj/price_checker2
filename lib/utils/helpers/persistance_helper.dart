@@ -22,4 +22,13 @@ class HelperServices {
     return value;
   }
 
+  static saveListOfItem(key,value)async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setStringList(key, value);
+  }
+  static Future<List<String>> getListOfItems(key)async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    List<String> list=preferences.getStringList(key)??[];
+    return list;
+  }
 }

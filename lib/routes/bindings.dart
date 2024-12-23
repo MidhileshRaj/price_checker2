@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:price_checker/controller/configuration_controller.dart';
 import 'package:price_checker/controller/main_controller.dart';
+import 'package:price_checker/controller/slider_item_controller.dart';
 
 class MyAppBindings implements Bindings{
   @override
@@ -8,6 +9,7 @@ class MyAppBindings implements Bindings{
     // TODO: implement dependencies
     Get.lazyPut(() => ConfigurationController(),);
     Get.lazyPut(() => MainController(),);
+    Get.lazyPut(() => SliderItemController(),);
 
   }
 }

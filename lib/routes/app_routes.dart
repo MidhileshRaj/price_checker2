@@ -5,4 +5,5 @@ abstract class Routes{
   static const main = '/main';
   static const configure = '/configure';
   static const product = '/product';
+  static const adImages = '/ad_images';
 }

@@ -24,6 +24,8 @@ class StringConstants{
   static const String ipAddress = "ipAddress";
   static const String password = "password";
   static const String columnName = "column";
+  //List of item
+  static const String imageLinks = "imageLinks";
 
 }
 
