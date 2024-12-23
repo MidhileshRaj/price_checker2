@@ -5,10 +5,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:ftpconnect/ftpconnect.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:mssql_connection/mssql_connection.dart';
 import 'package:mysql_client/mysql_client.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:price_checker/utils/constants/api_constans.dart';
 
 import '../utils/helpers/persistance_helper.dart';
@@ -22,6 +24,9 @@ class MainController extends GetxController {
   final _sqlConnection = MssqlConnection.getInstance();
   FocusNode focusNode = FocusNode();
   var imageLinks = <String>[].obs;
+  var imageFiles = <File>[].obs; // Observable list to hold downloaded images
+  var isLoading = true.obs; //
+
 
   // Reactive Variables for database configuration
   var getItemID = "".obs;
@@ -44,29 +49,23 @@ class MainController extends GetxController {
   var productPrice = "".obs;
   var productDetailsMap = {}.obs;
 
-
-
-
   // MySQL connection
   static MySQLConnection? _connection;
-   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   final RxBool showCarousel = false.obs;
   Timer? _inactivityTimer;
 
-
-  openDrawerMethod(){
+  openDrawerMethod() {
     scaffoldKey.currentState?.openEndDrawer();
   }
-
 
   /// Inactive Screen saver
   void resetInactivityTimer() {
     _inactivityTimer?.cancel();
     showCarousel.value = false; // Hide carousel if it was showing
     _inactivityTimer = Timer(const Duration(minutes: 1), () {
-      if(imageLinks.isNotEmpty) {
+      if (imageLinks.isNotEmpty) {
         showCarousel.value = true;
         // Show carousel after 1 minute
       }
@@ -79,8 +78,6 @@ class MainController extends GetxController {
     super.onClose();
   }
 
-
-
   @override
   void onInit() {
     super.onInit();
@@ -91,8 +88,65 @@ class MainController extends GetxController {
   }
 
   // Check Images saved on devices for slide show
-  checkAvailableImages()async{
-    imageLinks.value = await HelperServices.getListOfItems(StringConstants.imageLinks);
+  checkAvailableImages() async {
+    imageLinks.value =
+        await HelperServices.getListOfItems(StringConstants.imageLinks);
+  }
+
+  /// Check images available using FTP
+  checkFtpImages() async {
+    var ftpHost = await HelperServices.getServerData(StringConstants.ftpServer);
+    var ftpUsername = await HelperServices.getServerData(StringConstants.ftpUser);
+    var ftpPassword = await HelperServices.getServerData(StringConstants.ftpPassword);
+    var folderPath = await HelperServices.getServerData(StringConstants.ftpFolder);
+    final FTPConnect ftpClient = FTPConnect(
+      ftpHost,
+      user: ftpUsername,
+      pass: ftpPassword,
+    );
+
+    try {
+
+      print("$ftpClient---------- client details");
+
+      await ftpClient.connect();
+
+      // Change to the target folder
+      await ftpClient.changeDirectory(folderPath);
+
+      // List contents of the current directory
+      List<FTPEntry> entries = await ftpClient.listDirectoryContent();
+
+      // Filter entries for image files
+      List<FTPEntry> imageEntries = entries.where((entry) {
+        return entry.type == FTPEntryType.FILE &&
+            (entry.name.toLowerCase().endsWith('.jpg') ||
+                entry.name.toLowerCase().endsWith('.png'));
+      }).toList();
+
+      Directory tempDir = await getTemporaryDirectory();
+      List<File> downloadedImages = [];
+
+      // Download each image file
+      for (FTPEntry imageEntry in imageEntries) {
+        String localFilePath = "${tempDir.path}/${imageEntry.name}";
+        File localFile = File(localFilePath);
+
+        await ftpClient.downloadFile(
+          imageEntry.name, // No need to include folderPath, as we're already in the target folder
+          localFile,
+        );
+
+        downloadedImages.add(localFile);
+      }
+
+      imageFiles.assignAll(downloadedImages); // Update the observable list
+    } catch (e) {
+      print("Error while fetching images: $e");
+    } finally {
+      await ftpClient.disconnect();
+      isLoading.value = false;
+    }
   }
 
   // Scan Barcode Method
@@ -139,9 +193,12 @@ class MainController extends GetxController {
         await HelperServices.getServerData(StringConstants.userName);
     password.value =
         await HelperServices.getServerData(StringConstants.password);
-    itemCodeColumn.value = await HelperServices.getServerData(StringConstants.itemCode);
-    itemNameColumn.value = await HelperServices.getServerData(StringConstants.itemName);
-    itemSalesPriceColumn.value = await HelperServices.getServerData(StringConstants.salesPrice);
+    itemCodeColumn.value =
+        await HelperServices.getServerData(StringConstants.itemCode);
+    itemNameColumn.value =
+        await HelperServices.getServerData(StringConstants.itemName);
+    itemSalesPriceColumn.value =
+        await HelperServices.getServerData(StringConstants.salesPrice);
     table.value = await HelperServices.getServerData(StringConstants.table);
 
     print("${server.value} === ${userName.value} === $table");
@@ -171,9 +228,12 @@ class MainController extends GetxController {
       password.value =
           await HelperServices.getServerData(StringConstants.password);
       table.value = await HelperServices.getServerData(StringConstants.table);
-      itemCodeColumn.value = await HelperServices.getServerData(StringConstants.itemCode);
-      itemNameColumn.value = await HelperServices.getServerData(StringConstants.itemName);
-      itemSalesPriceColumn.value = await HelperServices.getServerData(StringConstants.salesPrice);
+      itemCodeColumn.value =
+          await HelperServices.getServerData(StringConstants.itemCode);
+      itemNameColumn.value =
+          await HelperServices.getServerData(StringConstants.itemName);
+      itemSalesPriceColumn.value =
+          await HelperServices.getServerData(StringConstants.salesPrice);
 
       // Connect to the database
       resetInactivityTimer();
@@ -206,7 +266,6 @@ class MainController extends GetxController {
       // fetch corresponding product details
       var product = data.first;
 
-
       productDetails.value = product[itemNameColumn.value].toString();
       productName.value = product[itemNameColumn.value].toString();
       productID.value = product["id"].toString();
@@ -233,18 +292,16 @@ class MainController extends GetxController {
         // Request the focus node after fetching product
         focusNode.requestFocus();
         hideProductDetails();
-
       } else {
         print('Failed to disconnect from SQL Server');
       }
 
       return json.decode(result);
-
     } catch (e) {
       print('Error fetching product data: $e');
-      productDetails.value= "No product available";
-      productPrice.value= "--";
-      productID.value="" ;
+      productDetails.value = "No product available";
+      productPrice.value = "--";
+      productID.value = "";
       getItemController.text = "";
       focusNode.requestFocus();
       hideProductDetails();
@@ -359,12 +416,11 @@ class MainController extends GetxController {
   }
 
   /// Hide product
-  hideProductDetails(){
-    if (productDetails.value != "No product selected."){
-      Future.delayed(Duration(seconds: 15),(){
-        productDetails.value ="No product selected.";
+  hideProductDetails() {
+    if (productDetails.value != "No product selected.") {
+      Future.delayed(Duration(seconds: 15), () {
+        productDetails.value = "No product selected.";
       });
-
     }
   }
 }

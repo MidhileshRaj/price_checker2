@@ -21,6 +21,16 @@ class HelperServices {
     var value =preferences.getBool("isConfigured")??false;
     return value;
   }
+  static setFtpConfiguration(value)async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setBool("isFtpConfigured",value );
+  }
+
+  static Future<bool> checkFtpConfiguration()async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var value =preferences.getBool("isFtpConfigured")??false;
+    return value;
+  }
 
   static saveListOfItem(key,value)async{
     SharedPreferences preferences = await SharedPreferences.getInstance();

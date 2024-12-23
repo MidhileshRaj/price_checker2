@@ -20,6 +20,10 @@ class StringConstants{
   static const String salesPrice = "salesPrice";
   static const String unitCode = "unitCode";
   static const String server = "server";
+  static const String ftpServer = "ftp_server";
+  static const String ftpFolder = "ftp_folder";
+  static const String ftpUser = "ftp_user";
+  static const String ftpPassword = "ftp_password";
   static const String port = "port";
   static const String ipAddress = "ipAddress";
   static const String password = "password";
