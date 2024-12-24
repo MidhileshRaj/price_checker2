@@ -106,18 +106,11 @@ class MainController extends GetxController {
     );
 
     try {
-
-      print("$ftpClient---------- client details");
-
+      isLoading.value = true;
       await ftpClient.connect();
 
-      // Change to the target folder
-      await ftpClient.changeDirectory(folderPath);
-
-      // List contents of the current directory
       List<FTPEntry> entries = await ftpClient.listDirectoryContent();
 
-      // Filter entries for image files
       List<FTPEntry> imageEntries = entries.where((entry) {
         return entry.type == FTPEntryType.FILE &&
             (entry.name.toLowerCase().endsWith('.jpg') ||
@@ -127,20 +120,19 @@ class MainController extends GetxController {
       Directory tempDir = await getTemporaryDirectory();
       List<File> downloadedImages = [];
 
-      // Download each image file
       for (FTPEntry imageEntry in imageEntries) {
         String localFilePath = "${tempDir.path}/${imageEntry.name}";
         File localFile = File(localFilePath);
 
         await ftpClient.downloadFile(
-          imageEntry.name, // No need to include folderPath, as we're already in the target folder
+          imageEntry.name, // No folder details needed
           localFile,
         );
 
         downloadedImages.add(localFile);
       }
 
-      imageFiles.assignAll(downloadedImages); // Update the observable list
+      imageFiles.assignAll(downloadedImages);
     } catch (e) {
       print("Error while fetching images: $e");
     } finally {
