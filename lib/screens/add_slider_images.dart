@@ -40,6 +40,8 @@ class AddSliderImages extends StatelessWidget {
                 onPressed: ()async {
                  await controller.saveFtpConfiguration();
                  await controller.testConnectionFtp();
+                 if(!context.mounted) return;
+                 Get.toNamed('/main');
                 },
                 child: const Text('Connect FTP Server'),
               ), ElevatedButton(

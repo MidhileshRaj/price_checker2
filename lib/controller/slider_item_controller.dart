@@ -89,7 +89,7 @@ class SliderItemController extends GetxController {
           StringConstants.imageLinks, localImages);
 
       // Download the image
-      Get.toNamed('/main');
+
 
       stdout.write("Images Fetching success----");
     } on FTPConnectException catch (e) {
