@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:ftpconnect/ftpconnect.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/helpers/persistance_helper.dart';
@@ -44,6 +48,58 @@ class SliderItemController extends GetxController {
     await HelperServices.saveServerData(
         StringConstants.ftpFolder, imageLinkController.value.text);
     await HelperServices.setFtpConfiguration(true);
+    Get.toNamed('/main');
+  }
+  testConnectionFtp() async {
+    final FTPConnect ftpClient = FTPConnect(
+      ftpServer.text,
+      user: username.text,
+      pass: password.text,
+    );
+
+    try {
+
+      List<String> localImages =[];
+      await ftpClient.connect();
+      print("Connection Success..../");
+      Directory appDir = await getApplicationDocumentsDirectory();
+      for (int i = 0; i <= 20; i++) {
+        var existJpgFile = await ftpClient.existFile('$i.jpg');
+        var existPngFile = await ftpClient.existFile('$i.png');
+        if (existJpgFile) {
+          String localFilePath = '${appDir.path}/$i.jpg';
+          if(File(localFilePath).existsSync()){
+            await File(localFilePath).delete();
+          }
+          await ftpClient.downloadFile('$i.jpg', File(localFilePath));
+          print(localFilePath);
+          localImages.add(localFilePath);
+        } else if (existPngFile) {
+          String localFilePath = '${appDir.path}/$i.png';
+          if(File(localFilePath).existsSync()){
+            await File(localFilePath).delete();
+          }
+          await ftpClient.downloadFile('$i.png', File(localFilePath));
+          print(localFilePath);
+          localImages.add(localFilePath);
+        }
+      }
+      print(localImages.length);
+      await HelperServices.saveListOfItem(
+          StringConstants.imageLinks, localImages);
+
+      // Download the image
+      Get.toNamed('/main');
+
+      stdout.write("Images Fetching success----");
+    } on FTPConnectException catch (e) {
+      print("$e---");
+    } catch (e) {
+      print("Test connection failed $e");
+    }finally{
+     ftpClient.disconnect();
+     print("FTP disconnected");
+   }
   }
 
   // Add a new image link and save to SharedPreferences

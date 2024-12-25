@@ -16,43 +16,46 @@ class AddSliderImages extends StatelessWidget {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            CustomTextFieldDesign(
-              label: 'FTP server',
-              controller: controller.ftpServer,
-              enable: controller.enableField.value,
-            ),
-            CustomTextFieldDesign(
-                label: 'FTP username', controller: controller.username),
-            CustomTextFieldDesign(
-                label: 'FTP password', controller: controller.password),
-            CustomTextFieldDesign(
-              label: 'FTP Folder Path',
-              controller: controller.imageLinkController,
-              enable: controller.enableField.value,
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                controller.saveFtpConfiguration();
-              },
-              child: const Text('Connect FTP Server'),
-            ), ElevatedButton(
-              onPressed: () {
-                controller.enableField.value = true;
-              },
-              child: const Text('Change'),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Image Links',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              CustomTextFieldDesign(
+                label: 'FTP server',
+                controller: controller.ftpServer,
+                enable: controller.enableField.value,
+              ),
+              CustomTextFieldDesign(
+                  label: 'FTP username', controller: controller.username),
+              CustomTextFieldDesign(
+                  label: 'FTP password', controller: controller.password),
+              // CustomTextFieldDesign(
+              //   label: 'FTP Folder Path',
+              //   controller: controller.imageLinkController,
+              //   enable: controller.enableField.value,
+              // ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: ()async {
+                 await controller.saveFtpConfiguration();
+                 await controller.testConnectionFtp();
+                },
+                child: const Text('Connect FTP Server'),
+              ), ElevatedButton(
+                onPressed: () {
+                  controller.enableField.value = true;
+                },
+                child: const Text('Change'),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Image Links',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
     );

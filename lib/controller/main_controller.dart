@@ -5,12 +5,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:ftpconnect/ftpconnect.dart';
+
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:mssql_connection/mssql_connection.dart';
 import 'package:mysql_client/mysql_client.dart';
-import 'package:path_provider/path_provider.dart';
+
 import 'package:price_checker/utils/constants/api_constans.dart';
 
 import '../utils/helpers/persistance_helper.dart';
@@ -26,7 +26,6 @@ class MainController extends GetxController {
   var imageLinks = <String>[].obs;
   var imageFiles = <File>[].obs; // Observable list to hold downloaded images
   var isLoading = true.obs; //
-
 
   // Reactive Variables for database configuration
   var getItemID = "".obs;
@@ -93,53 +92,9 @@ class MainController extends GetxController {
         await HelperServices.getListOfItems(StringConstants.imageLinks);
   }
 
-  /// Check images available using FTP
-  checkFtpImages() async {
-    var ftpHost = await HelperServices.getServerData(StringConstants.ftpServer);
-    var ftpUsername = await HelperServices.getServerData(StringConstants.ftpUser);
-    var ftpPassword = await HelperServices.getServerData(StringConstants.ftpPassword);
-    var folderPath = await HelperServices.getServerData(StringConstants.ftpFolder);
-    final FTPConnect ftpClient = FTPConnect(
-      ftpHost,
-      user: ftpUsername,
-      pass: ftpPassword,
-    );
 
-    try {
-      isLoading.value = true;
-      await ftpClient.connect();
 
-      List<FTPEntry> entries = await ftpClient.listDirectoryContent();
 
-      List<FTPEntry> imageEntries = entries.where((entry) {
-        return entry.type == FTPEntryType.FILE &&
-            (entry.name.toLowerCase().endsWith('.jpg') ||
-                entry.name.toLowerCase().endsWith('.png'));
-      }).toList();
-
-      Directory tempDir = await getTemporaryDirectory();
-      List<File> downloadedImages = [];
-
-      for (FTPEntry imageEntry in imageEntries) {
-        String localFilePath = "${tempDir.path}/${imageEntry.name}";
-        File localFile = File(localFilePath);
-
-        await ftpClient.downloadFile(
-          imageEntry.name, // No folder details needed
-          localFile,
-        );
-
-        downloadedImages.add(localFile);
-      }
-
-      imageFiles.assignAll(downloadedImages);
-    } catch (e) {
-      print("Error while fetching images: $e");
-    } finally {
-      await ftpClient.disconnect();
-      isLoading.value = false;
-    }
-  }
 
   // Scan Barcode Method
   Future<void> scanBarCode() async {

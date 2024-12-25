@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -99,7 +100,7 @@ class GetItemDetails extends StatelessWidget {
                   ),
                   // Arch shape widget with carousel
                   controller.showCarousel.value?Center(
-                    child:  controller.imageFiles.isEmpty? SizedBox(
+                    child:  controller.imageLinks.isEmpty? SizedBox(
                       height: height * .6,
                       width: width * .8,
                       child: Image(
@@ -110,7 +111,7 @@ class GetItemDetails extends StatelessWidget {
                         height: min(width / 3.3 * (16 / 9),height*.9),
                         child:CarouselSlider(
                           options: CarouselOptions(height: height*.7,autoPlay: true,),
-                          items: controller.imageFiles.map((i) {
+                          items: controller.imageLinks.map((i) {
 
                             return Builder(
                               builder: (BuildContext context) {
@@ -121,7 +122,7 @@ class GetItemDetails extends StatelessWidget {
                                     decoration: const BoxDecoration(
                                         color: Colors.amber
                                     ),
-                                    child:Image(image: FileImage(i),fit: BoxFit.cover,)
+                                    child:Image.file(File(i),fit: BoxFit.cover,)
                                 );
                               },
                             );
