@@ -25,14 +25,16 @@ class GetItemDetails extends StatelessWidget {
     final screenController = Get.put(MainController(), tag: UniqueKey().toString());
     final height = MyAppDeviceUtils.getScreenHeight();
     final width = MyAppDeviceUtils.getScreenWidth();
-    // controller.initializeDatabase();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.focusNode.requestFocus();
       controller.resetInactivityTimer();
     });
 
     controller.focusNode.requestFocus();
+    controller.resetInactivityTimer();
     controller.checkAvailableImages();
+
 
     return GestureDetector(
       onTap: () {
@@ -110,7 +112,7 @@ class GetItemDetails extends StatelessWidget {
                     ):SizedBox(
                         height: min(width / 3.3 * (16 / 9),height*.9),
                         child:CarouselSlider(
-                          options: CarouselOptions(height: height*.7,autoPlay: true,),
+                          options: CarouselOptions(height: height*.7,autoPlay: true,animateToClosest: true,),
                           items: controller.imageLinks.map((i) {
 
                             return Builder(
@@ -205,10 +207,13 @@ class GetItemDetails extends StatelessWidget {
                       left: height * .1,
                       right: width * .1,
                       child: OutPutWidget(
+                        onPressSpeaker:controller.speakPrice,
                           productDetails: controller.productDetails.value,
                           productPrice: controller.productPrice.value,
                           productName: controller.productDetails.value,
                           backgroundImage: ImageStrings.detailsBackground,
+                          arabicProductName: controller.arabicProductName.value,
+                          arabicProductPrice: controller.arabicProductPrice.value,
                           height: height,
                           width: width)),
                 ],

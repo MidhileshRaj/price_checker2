@@ -48,7 +48,7 @@ class SliderItemController extends GetxController {
     await HelperServices.saveServerData(
         StringConstants.ftpFolder, imageLinkController.value.text);
     await HelperServices.setFtpConfiguration(true);
-    Get.toNamed('/main');
+
   }
   testConnectionFtp() async {
     final FTPConnect ftpClient = FTPConnect(
@@ -62,7 +62,9 @@ class SliderItemController extends GetxController {
       List<String> localImages =[];
       await ftpClient.connect();
       print("Connection Success..../");
-      Directory appDir = await getApplicationDocumentsDirectory();
+
+      final externalStoragePath = await getExternalStorageDirectory();
+      final appDir = Directory('${externalStoragePath?.path}/my_app_cache');
       for (int i = 0; i <= 20; i++) {
         var existJpgFile = await ftpClient.existFile('$i.jpg');
         var existPngFile = await ftpClient.existFile('$i.png');

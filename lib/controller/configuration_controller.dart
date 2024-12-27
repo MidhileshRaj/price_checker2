@@ -16,6 +16,8 @@ class ConfigurationController extends GetxController {
   var itemCodeController = TextEditingController().obs;
   var nameColumnController = TextEditingController().obs;
   var priceColumnController = TextEditingController().obs;
+  var arabicPriceColumnController = TextEditingController().obs;
+  var arabicNameColumnController = TextEditingController().obs;
 
   // Reactive variable for enabling/disabling text fields
   var enableTextField = true.obs;
@@ -42,6 +44,21 @@ class ConfigurationController extends GetxController {
   void onInit() {
     super.onInit();
     configurePageInitialization();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    serverNameController.value.dispose();
+    dataBaseNameController.value.dispose();
+    tableNameController.value.dispose();
+    userNameController.value.dispose();
+    passwordController.value.dispose();
+    ipAddressController.value.dispose();
+    itemCodeController.value.dispose();
+    nameColumnController.value.dispose();
+    priceColumnController.value.dispose();
   }
 
   configurePageInitialization() async {
@@ -91,6 +108,10 @@ class ConfigurationController extends GetxController {
         StringConstants.itemName, nameColumnController.value.text);
     await HelperServices.saveServerData(
         StringConstants.salesPrice, priceColumnController.value.text);
+    // await HelperServices.saveServerData(
+    //     StringConstants.arabicName, arabicNameColumnController.value.text);
+    // await HelperServices.saveServerData(
+    //     StringConstants.arabicPrice, arabicPriceColumnController.value.text);
     await HelperServices.setConfiguration(true);
   }
 }

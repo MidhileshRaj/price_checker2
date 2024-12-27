@@ -87,6 +87,15 @@ class ConfigurationScreen extends StatelessWidget {
                 hint: 'eg:- itemPrice',
                 controller: controller.priceColumnController.value,
               ),
+              // CustomTextFieldDesign(
+              //   label: 'Arabic Name Column',
+              //   hint: 'eg:- arabic_name',
+              //   controller: controller.arabicNameColumnController.value,
+              // ),CustomTextFieldDesign(
+              //   label: 'Arabic Price Column',
+              //   hint: 'eg:- arabic_price',
+              //   controller: controller.arabicPriceColumnController.value,
+              // ),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

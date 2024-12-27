@@ -17,6 +17,8 @@ class StringConstants{
   static const String itemName = "itemName";
   static const String itemDesc = "itemDesc";
   static const String arabicDecs = "arabicDecs";
+  static const String arabicName = "arabicName";
+  static const String arabicPrice = "arabicPrice";
   static const String salesPrice = "salesPrice";
   static const String unitCode = "unitCode";
   static const String server = "server";

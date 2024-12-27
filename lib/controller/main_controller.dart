@@ -14,6 +14,7 @@ import 'package:mysql_client/mysql_client.dart';
 import 'package:price_checker/utils/constants/api_constans.dart';
 
 import '../utils/helpers/persistance_helper.dart';
+import '../utils/helpers/text_to_speach_helper.dart';
 import '../utils/string_constants.dart';
 
 class MainController extends GetxController {
@@ -36,6 +37,8 @@ class MainController extends GetxController {
   var itemCodeColumn = "".obs;
   var itemSalesPriceColumn = "".obs;
   var itemNameColumn = "".obs;
+  var itemArabicNameColumn = "".obs;
+  var itemArabicPriceColumn = "".obs;
 
   /// Product details
 
@@ -45,6 +48,8 @@ class MainController extends GetxController {
   var productDetails = "No product selected.".obs;
   var productID = "".obs;
   var productName = "".obs;
+  var arabicProductName = "".obs;
+  var arabicProductPrice = "".obs;
   var productPrice = "".obs;
   var productDetailsMap = {}.obs;
 
@@ -91,10 +96,6 @@ class MainController extends GetxController {
     imageLinks.value =
         await HelperServices.getListOfItems(StringConstants.imageLinks);
   }
-
-
-
-
 
   // Scan Barcode Method
   Future<void> scanBarCode() async {
@@ -181,6 +182,10 @@ class MainController extends GetxController {
           await HelperServices.getServerData(StringConstants.itemName);
       itemSalesPriceColumn.value =
           await HelperServices.getServerData(StringConstants.salesPrice);
+      // itemArabicNameColumn.value =
+      //     await HelperServices.getServerData(StringConstants.arabicName);
+      // itemArabicPriceColumn.value =
+      //     await HelperServices.getServerData(StringConstants.arabicPrice);
 
       // Connect to the database
       resetInactivityTimer();
@@ -215,6 +220,8 @@ class MainController extends GetxController {
 
       productDetails.value = product[itemNameColumn.value].toString();
       productName.value = product[itemNameColumn.value].toString();
+      // arabicProductName.value = product[itemArabicNameColumn.value].toString();
+      // arabicProductPrice.value = product[itemArabicPriceColumn.value].toString();
       productID.value = product["id"].toString();
       print(product[itemSalesPriceColumn.value]);
       productPrice.value = product[itemSalesPriceColumn].toStringAsFixed(2);
@@ -369,5 +376,10 @@ class MainController extends GetxController {
         productDetails.value = "No product selected.";
       });
     }
+  }
+
+  speakPrice() {
+    final TextToSpeechHelper ttsHelper = TextToSpeechHelper();
+    ttsHelper.speak("Price is ${productPrice.value} AED");
   }
 }
