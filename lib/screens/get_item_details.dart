@@ -25,17 +25,10 @@ class GetItemDetails extends StatelessWidget {
     final screenController = Get.put(MainController(), tag: UniqueKey().toString());
     final height = MyAppDeviceUtils.getScreenHeight();
     final width = MyAppDeviceUtils.getScreenWidth();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.focusNode.requestFocus();
       controller.resetInactivityTimer();
     });
-
-    controller.focusNode.requestFocus();
-    controller.resetInactivityTimer();
-    controller.checkAvailableImages();
-
-
     return GestureDetector(
       onTap: () {
         controller
@@ -43,6 +36,7 @@ class GetItemDetails extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
+          color: MyAppColors.primaryBackground,
           image: DecorationImage(
             image: AssetImage(ImageStrings.background),
             fit: BoxFit.cover,
@@ -136,15 +130,17 @@ class GetItemDetails extends StatelessWidget {
                     top: 0,
                     left: width * .2,
                     right: width * .2,
-                    child: ClipPath(
-                      clipper: CustomCurveClipper(),
+                    // child: ClipPath(
+                    //   clipper: CustomCurveClipper(),
                       child: Container(
-                        color: Colors
-                            .white, // Background color for the content area
-                        height: height * .45,
-                        width: width * 0.5,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.white
+                      ),// Background color for the content area
+                        height: height ,
+                        width: width * 0.8,
                       ),
-                    ),
+                    // ),
                   ),
                   controller.showCarousel.value?const SizedBox():
                   Center(
@@ -156,8 +152,8 @@ class GetItemDetails extends StatelessWidget {
                         ),
                         // Logo
                         SizedBox(
-                          height: height * .23,
-                          width: width * .23,
+                          height: height * .5,
+                          width: width * .43,
                           child: Image(
                             image: AssetImage(ImageStrings.alSafeer),
                             fit: BoxFit.fill,
@@ -187,13 +183,13 @@ class GetItemDetails extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                            color: MyAppColors.primary.withOpacity(.5),
+                            // color: MyAppColors.primary.withOpacity(.5),
                             borderRadius: BorderRadius.circular(30)),
                         child: Text(
                           "Scan Here",
                           style: GoogleFonts.montserrat(
                             textStyle: const TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontSize: 45,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -212,8 +208,6 @@ class GetItemDetails extends StatelessWidget {
                           productPrice: controller.productPrice.value,
                           productName: controller.productDetails.value,
                           backgroundImage: ImageStrings.detailsBackground,
-                          arabicProductName: controller.arabicProductName.value,
-                          arabicProductPrice: controller.arabicProductPrice.value,
                           height: height,
                           width: width)),
                 ],

@@ -37,8 +37,7 @@ class MainController extends GetxController {
   var itemCodeColumn = "".obs;
   var itemSalesPriceColumn = "".obs;
   var itemNameColumn = "".obs;
-  var itemArabicNameColumn = "".obs;
-  var itemArabicPriceColumn = "".obs;
+
 
   /// Product details
 
@@ -48,8 +47,7 @@ class MainController extends GetxController {
   var productDetails = "No product selected.".obs;
   var productID = "".obs;
   var productName = "".obs;
-  var arabicProductName = "".obs;
-  var arabicProductPrice = "".obs;
+
   var productPrice = "".obs;
   var productDetailsMap = {}.obs;
 
@@ -182,10 +180,7 @@ class MainController extends GetxController {
           await HelperServices.getServerData(StringConstants.itemName);
       itemSalesPriceColumn.value =
           await HelperServices.getServerData(StringConstants.salesPrice);
-      // itemArabicNameColumn.value =
-      //     await HelperServices.getServerData(StringConstants.arabicName);
-      // itemArabicPriceColumn.value =
-      //     await HelperServices.getServerData(StringConstants.arabicPrice);
+
 
       // Connect to the database
       resetInactivityTimer();
@@ -220,8 +215,6 @@ class MainController extends GetxController {
 
       productDetails.value = product[itemNameColumn.value].toString();
       productName.value = product[itemNameColumn.value].toString();
-      // arabicProductName.value = product[itemArabicNameColumn.value].toString();
-      // arabicProductPrice.value = product[itemArabicPriceColumn.value].toString();
       productID.value = product["id"].toString();
       print(product[itemSalesPriceColumn.value]);
       productPrice.value = product[itemSalesPriceColumn].toStringAsFixed(2);

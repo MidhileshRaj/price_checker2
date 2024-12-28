@@ -12,14 +12,12 @@ class OutPutWidget extends StatelessWidget {
       required this.productName,
       required this.backgroundImage,
       required this.height,
-      required this.width, this.onPressSpeaker,  this.arabicProductName ="",  this.arabicProductPrice= ""});
+      required this.width, this.onPressSpeaker});
 
   final String productDetails;
   final String productPrice;
   final String backgroundImage;
   final String productName;
-  final String arabicProductName;
-  final String arabicProductPrice;
   final double height;
   final double width;
   final VoidCallback? onPressSpeaker;
@@ -63,16 +61,6 @@ class OutPutWidget extends StatelessWidget {
                 style:GoogleFonts.quicksand(textStyle: const TextStyle(color: Colors.white,fontSize: 45,)),
               ),
             ),
-            // Container(
-            //   decoration: BoxDecoration(
-            //     color: const Color(0xFF8ac43e).withOpacity(.6),
-            //     borderRadius: BorderRadius.circular(45),
-            //   ),
-            //   child: Text(
-            //     arabicProductName,
-            //     style:GoogleFonts.quicksand(textStyle: const TextStyle(color: Colors.white,fontSize: 45,)),
-            //   ),
-            // ),
             const SizedBox(
               height: 25,
             ),
@@ -88,17 +76,7 @@ class OutPutWidget extends StatelessWidget {
                 ),
               ),
             ),
-            // Container(
-            //   decoration: BoxDecoration(
-            //     color: const Color(0xFF8ac43e).withOpacity(.6),
-            //     borderRadius: BorderRadius.circular(45),
-            //   ),
-            //   child: Text(
-            //     arabicProductPrice,
-            //     style:GoogleFonts.quicksand(textStyle: const TextStyle(color: Colors.white,fontSize: 45,)),
-            //   ),
-            // ),
-            IconButton(onPressed: onPressSpeaker, icon: const Icon(Icons.volume_down_alt,size: 60,color: Colors.white,))
+            IconButton(onPressed: onPressSpeaker, icon: const Icon(Icons.volume_down_alt,size: 60,color: MyAppColors.white,))
           ],
         ),
       );

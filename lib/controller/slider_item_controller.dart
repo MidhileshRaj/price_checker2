@@ -64,7 +64,7 @@ class SliderItemController extends GetxController {
       print("Connection Success..../");
 
       final externalStoragePath = await getExternalStorageDirectory();
-      final appDir = Directory('${externalStoragePath?.path}/my_app_cache');
+      final appDir = Directory('${externalStoragePath?.path}');
       for (int i = 0; i <= 20; i++) {
         var existJpgFile = await ftpClient.existFile('$i.jpg');
         var existPngFile = await ftpClient.existFile('$i.png');
