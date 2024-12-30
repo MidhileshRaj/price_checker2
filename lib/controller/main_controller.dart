@@ -12,6 +12,7 @@ import 'package:mysql_client/mysql_client.dart';
 import 'package:price_checker/utils/constants/api_constans.dart';
 
 import '../utils/helpers/persistance_helper.dart';
+import '../utils/helpers/sqf_lite_helper.dart';
 import '../utils/string_constants.dart';
 
 class MainController extends GetxController {
@@ -90,7 +91,18 @@ class MainController extends GetxController {
     print("Init state on count -----");
   }
 
-  // Check Images saved on devices for slide show
+
+
+  /// Check Images saved on devices for slide show
+  /// Carousel Image fetching
+
+
+  Future<void> loadImagesFromDatabase() async {
+    final dbHelper = DatabaseHelper();
+    List<String> savedPaths = await dbHelper.getAllImagePaths();
+    imageLinks.assignAll(savedPaths);
+  }
+
   checkAvailableImages()async{
     imageLinks.value = await HelperServices.getListOfItems(StringConstants.imageLinks);
   }

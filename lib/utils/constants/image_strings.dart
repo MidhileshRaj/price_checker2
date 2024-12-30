@@ -10,7 +10,7 @@ class ImageStrings{
   static String alSafeer = "assets/images/al-safeer.png";
 
   /// Lottie
-  static String lottieDown = 'assets/lottie/down-arrow.json';
+  static String lottieDown = 'assets/lottie/black-arrow.json';
 
 
 

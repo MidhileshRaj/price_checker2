@@ -31,7 +31,7 @@ class GetItemDetails extends StatelessWidget {
     });
 
     controller.focusNode.requestFocus();
-    controller.checkAvailableImages();
+
 
     return GestureDetector(
       onTap: () {
@@ -99,7 +99,14 @@ class GetItemDetails extends StatelessWidget {
                   ),
                   // Arch shape widget with carousel
                   controller.showCarousel.value?Center(
-                    child:  SizedBox(
+                    child:  controller.imageLinks.isEmpty? SizedBox(
+                        height: height * .45,
+                        width: width * .33,
+                        child: Image(
+                          image: AssetImage(ImageStrings.alSafeer),
+                          fit: BoxFit.fill,
+                        )
+                    ):SizedBox(
                         height: min(width / 3.3 * (16 / 9),height*.9),
                         child:CarouselSlider(
                           options: CarouselOptions(height: height*.7,autoPlay: true,),
@@ -145,8 +152,8 @@ class GetItemDetails extends StatelessWidget {
                         ),
                         // Logo
                         SizedBox(
-                          height: height * .23,
-                          width: width * .23,
+                          height: height * .45,
+                          width: width * .33,
                           child: Image(
                             image: AssetImage(ImageStrings.alSafeer),
                             fit: BoxFit.fill,
@@ -176,7 +183,6 @@ class GetItemDetails extends StatelessWidget {
                       child: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                            color: MyAppColors.primary.withOpacity(.5),
                             borderRadius: BorderRadius.circular(30)),
                         child: Text(
                           "Scan Here",
