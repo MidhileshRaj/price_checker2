@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -5,14 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:price_checker/screens/configuration_screen.dart';
 import 'package:price_checker/screens/widget/custom_drawer_widget.dart';
-import 'package:price_checker/utils/constants/colors.dart';
 import 'package:price_checker/utils/constants/image_strings.dart';
 import 'package:price_checker/utils/devices/device_utilities.dart';
 
 import '../controller/main_controller.dart';
-import '../utils/theme/custom_clippers.dart';
 import 'widget/output_widgets.dart';
 
 class GetItemDetails extends StatelessWidget {
@@ -25,13 +23,11 @@ class GetItemDetails extends StatelessWidget {
     final height = MyAppDeviceUtils.getScreenHeight();
     final width = MyAppDeviceUtils.getScreenWidth();
     // controller.initializeDatabase();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.focusNode.requestFocus();
-      controller.resetInactivityTimer();
-    });
+
 
     controller.focusNode.requestFocus();
-
+    controller.loadImagesFromDatabase();
+    controller.resetInactivityTimer();
 
     return GestureDetector(
       onTap: () {
@@ -109,18 +105,18 @@ class GetItemDetails extends StatelessWidget {
                     ):SizedBox(
                         height: min(width / 3.3 * (16 / 9),height*.9),
                         child:CarouselSlider(
-                          options: CarouselOptions(height: height*.7,autoPlay: true,),
+                          options: CarouselOptions(height: height*.8,autoPlay: true,),
                           items: controller.imageLinks.map((i) {
                             print(i);
                             return Builder(
                               builder: (BuildContext context) {
                                 return Container(
                                     width: MediaQuery.of(context).size.width,
-                                    margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                    decoration: BoxDecoration(
+                                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                                    decoration: const BoxDecoration(
                                         color: Colors.amber
                                     ),
-                                    child:Image(image: NetworkImage(i.toString()),fit: BoxFit.cover,)
+                                    child:Image(image: FileImage(File(i.toString())),fit: BoxFit.cover,)
                                 );
                               },
                             );
@@ -132,17 +128,16 @@ class GetItemDetails extends StatelessWidget {
                     top: 0,
                     left: width * .2,
                     right: width * .2,
-                    child: ClipPath(
-                      clipper: CustomCurveClipper(),
+                    // child: ClipPath(
+                      // clipper: CustomCurveClipper(),
                       child: Container(
-                        color: Colors
-                            .white, // Background color for the content area
-                        height: height * .45,
-                        width: width * 0.5,
+                       decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(40)),// Background color for the content area
+                        height: height ,
+                        width: width * 0.75,
                       ),
-                    ),
+                    // ),
                   ),
-                  controller.showCarousel.value?SizedBox():
+                  controller.showCarousel.value?const SizedBox():
                   Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -152,8 +147,8 @@ class GetItemDetails extends StatelessWidget {
                         ),
                         // Logo
                         SizedBox(
-                          height: height * .45,
-                          width: width * .33,
+                          height: height * .55,
+                          width: width * .42,
                           child: Image(
                             image: AssetImage(ImageStrings.alSafeer),
                             fit: BoxFit.fill,
@@ -175,20 +170,20 @@ class GetItemDetails extends StatelessWidget {
                       child: Lottie.asset(ImageStrings.lottieDown),
                     ),
                   ),
-                 controller.showCarousel.value?SizedBox(): Positioned(
+                 controller.showCarousel.value?const SizedBox(): Positioned(
                     bottom: height * .25,
                     left: width * .1,
                     right: width * .1,
                     child: Center(
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30)),
                         child: Text(
                           "Scan Here",
                           style: GoogleFonts.montserrat(
-                            textStyle: TextStyle(
-                                color: Colors.white,
+                            textStyle: const TextStyle(
+                                // color: Colors.white,
                                 fontSize: 45,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -197,7 +192,7 @@ class GetItemDetails extends StatelessWidget {
                       ),
                     ),
                   ),
-                 controller.showCarousel.value?SizedBox(): Positioned(
+                 controller.showCarousel.value?const SizedBox(): Positioned(
                       bottom: 90,
                       left: height * .1,
                       right: width * .1,

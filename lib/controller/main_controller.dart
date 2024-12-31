@@ -88,7 +88,9 @@ class MainController extends GetxController {
     // Set up method channel to listen for barcode results.
 
     HardwareKeyboard.instance.addHandler(_handleKeyEvent);
+
     print("Init state on count -----");
+    loadImagesFromDatabase();
   }
 
 
@@ -187,6 +189,7 @@ class MainController extends GetxController {
       itemNameColumn.value = await HelperServices.getServerData(StringConstants.itemName);
       itemSalesPriceColumn.value = await HelperServices.getServerData(StringConstants.salesPrice);
 
+      stdout.writeln("$server---$database--- $userName---$password");
       // Connect to the database
       resetInactivityTimer();
       bool isConnected = await _sqlConnection.connect(

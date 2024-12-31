@@ -5,6 +5,7 @@ import 'package:ftpconnect/ftpconnect.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../screens/get_item_details.dart';
 import '../utils/helpers/persistance_helper.dart';
 import '../utils/helpers/sqf_lite_helper.dart';
 import '../utils/string_constants.dart';
@@ -43,6 +44,7 @@ class SliderItemController extends GetxController {
       final dbHelper = DatabaseHelper();
       await dbHelper.clearImages(); // Clear existing data before inserting new
 
+      stdout.writeln("Download images one by one");
       for (int i = 0; i <= 20; i++) {
         String? imagePath = await _downloadAndSaveImage(ftpClient, appDir, i);
         if (imagePath != null) {
@@ -52,6 +54,7 @@ class SliderItemController extends GetxController {
       }
 
       stdout.write("Images fetched and saved successfully...");
+      Get.to(()=>const GetItemDetails());
     } on FTPConnectException catch (e) {
       print("FTP connection error: $e");
     } catch (e) {
@@ -59,6 +62,7 @@ class SliderItemController extends GetxController {
     } finally {
       ftpClient.disconnect();
       print("FTP disconnected");
+
     }
   }
 
