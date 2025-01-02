@@ -91,6 +91,8 @@ class MainController extends GetxController {
 
     print("Init state on count -----");
     loadImagesFromDatabase();
+    focusNode.requestFocus();
+    resetInactivityTimer();
   }
 
 
@@ -103,6 +105,11 @@ class MainController extends GetxController {
     final dbHelper = DatabaseHelper();
     List<String> savedPaths = await dbHelper.getAllImagePaths();
     imageLinks.assignAll(savedPaths);
+  }
+
+  onPageDistro()async{
+    showCarousel.value = false;
+    imageLinks.value =[];
   }
 
   checkAvailableImages()async{

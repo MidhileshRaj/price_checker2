@@ -54,7 +54,7 @@ class SliderItemController extends GetxController {
       }
 
       stdout.write("Images fetched and saved successfully...");
-      Get.to(()=>const GetItemDetails());
+
     } on FTPConnectException catch (e) {
       print("FTP connection error: $e");
     } catch (e) {
@@ -62,6 +62,7 @@ class SliderItemController extends GetxController {
     } finally {
       ftpClient.disconnect();
       print("FTP disconnected");
+      Get.back();
 
     }
   }

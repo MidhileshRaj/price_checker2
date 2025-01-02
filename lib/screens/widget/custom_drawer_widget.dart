@@ -6,7 +6,9 @@ import 'package:price_checker/utils/constants/colors.dart';
 import '../configuration_screen.dart';
 
 class CustomDrawerWidget extends StatelessWidget {
-  const CustomDrawerWidget({super.key});
+  const CustomDrawerWidget({super.key, this.onTapAdConfig});
+
+ final VoidCallback? onTapAdConfig;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +41,7 @@ class CustomDrawerWidget extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.live_tv_rounded),
             title: const Text('Ad. settings'),
-            onTap: () {
-              Get.to(() => const AddSliderImages());
-            },
+            onTap: onTapAdConfig,
           ),
 
         ],

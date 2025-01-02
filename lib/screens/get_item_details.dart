@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:price_checker/screens/add_slider_images.dart';
 import 'package:price_checker/screens/widget/custom_drawer_widget.dart';
 import 'package:price_checker/utils/constants/image_strings.dart';
 import 'package:price_checker/utils/devices/device_utilities.dart';
@@ -23,11 +24,12 @@ class GetItemDetails extends StatelessWidget {
     final height = MyAppDeviceUtils.getScreenHeight();
     final width = MyAppDeviceUtils.getScreenWidth();
     // controller.initializeDatabase();
+    controller.onInit();
 
 
-    controller.focusNode.requestFocus();
-    controller.loadImagesFromDatabase();
-    controller.resetInactivityTimer();
+    // controller.focusNode.requestFocus();
+    // controller.loadImagesFromDatabase();
+    // controller.resetInactivityTimer();
 
     return GestureDetector(
       onTap: () {
@@ -42,7 +44,10 @@ class GetItemDetails extends StatelessWidget {
           ),
         ),
         child: Scaffold(
-          endDrawer: const CustomDrawerWidget(),
+          endDrawer:  CustomDrawerWidget(onTapAdConfig: ()async{
+            await controller.onPageDistro();
+            Get.to(const AddSliderImages());
+          },),
           key: screenController.scaffoldKey,
           floatingActionButton: FloatingActionButton(
             onPressed: () {
