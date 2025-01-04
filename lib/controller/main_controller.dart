@@ -66,7 +66,7 @@ class MainController extends GetxController {
   void resetInactivityTimer() {
     _inactivityTimer?.cancel();
     showCarousel.value = false; // Hide carousel if it was showing
-    _inactivityTimer = Timer(const Duration(minutes: 1), () {
+    _inactivityTimer = Timer(const Duration(seconds: 30), () {
       if(imageLinks.isNotEmpty) {
         showCarousel.value = true;
         // Show carousel after 1 minute

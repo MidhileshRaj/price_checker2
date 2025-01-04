@@ -25,16 +25,18 @@ class GetItemDetails extends StatelessWidget {
     final width = MyAppDeviceUtils.getScreenWidth();
     // controller.initializeDatabase();
     controller.onInit();
+    controller.focusNode.requestFocus();
 
 
-    // controller.focusNode.requestFocus();
-    // controller.loadImagesFromDatabase();
-    // controller.resetInactivityTimer();
+      controller.loadImagesFromDatabase();
+      controller.resetInactivityTimer();
+
 
     return GestureDetector(
       onTap: () {
-        controller
-            .resetInactivityTimer(); // Reset inactivity timer on interaction
+        controller.resetInactivityTimer(); //
+        controller.focusNode.requestFocus();// Reset inactivity timer on interaction
+        controller.loadImagesFromDatabase();// Reset inactivity timer on interaction
       },
       child: Container(
         decoration: BoxDecoration(
