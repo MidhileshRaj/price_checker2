@@ -92,6 +92,13 @@ class ConfigurationScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ButtonWidget(
+                    text: "Test Connection",
+                    onClicked: () async {
+                      await controller.testMsSqlConnection();
+
+                    },
+                  ),
+                  const SizedBox(width: 20),ButtonWidget(
                     text: "Configure",
                     onClicked: () async {
                       await controller.saveConfiguration();

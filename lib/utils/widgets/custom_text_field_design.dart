@@ -7,13 +7,14 @@ class CustomTextFieldDesign extends StatelessWidget {
       this.hint = "",
       required this.controller,
       this.obscure = false,
-      this.enable= true});
+      this.enable= true,  this.textInputType = TextInputType.text});
 
   final String label;
   final String hint;
   final TextEditingController controller;
   final bool obscure;
   final bool enable;
+  final TextInputType textInputType;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,7 @@ class CustomTextFieldDesign extends StatelessWidget {
               enabled: enable,
               obscureText: obscure,
               obscuringCharacter: "*",
+              keyboardType: textInputType,
               decoration: InputDecoration(
                 labelText: label,
                 hintText: hint,

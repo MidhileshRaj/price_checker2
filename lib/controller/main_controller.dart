@@ -61,6 +61,9 @@ class MainController extends GetxController {
   openDrawerMethod() {
     scaffoldKey.currentState?.openEndDrawer();
   }
+  closeDrawerMethod() {
+    scaffoldKey.currentState?.openEndDrawer();
+  }
 
   /// Version update 1.0.3
   getDurationOfSlider() async {
@@ -74,6 +77,7 @@ class MainController extends GetxController {
   /// Inactive Screen saver
   void resetInactivityTimer() {
     _inactivityTimer?.cancel();
+    print("Reset time method started====");
     showCarousel.value = false; // Hide carousel if it was showing
     _inactivityTimer = Timer(Duration(seconds: sliderDuration.value), () {
       if (imageLinks.isNotEmpty) {
@@ -107,6 +111,7 @@ class MainController extends GetxController {
 
   Future<void> loadImagesFromDatabase() async {
     final dbHelper = DatabaseHelper();
+    print("images loading....");
     List<String> savedPaths = await dbHelper.getAllImagePaths();
     imageLinks.assignAll(savedPaths);
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mssql_connection/mssql_connection.dart';
 import 'package:price_checker/utils/constants/colors.dart';
 
 import '../utils/helpers/persistance_helper.dart';
@@ -22,6 +23,8 @@ class ConfigurationController extends GetxController {
 
   /// Dynamic textfield add method
   var dynamicTextControllers = <TextEditingController>[].obs;
+
+  final _sqlConnection = MssqlConnection.getInstance();
 
   void addTextField() {
     if (dynamicTextControllers.length < 10) {
@@ -92,5 +95,62 @@ class ConfigurationController extends GetxController {
     await HelperServices.saveServerData(
         StringConstants.salesPrice, priceColumnController.value.text);
     await HelperServices.setConfiguration(true);
+  }
+
+  Future<dynamic> testMsSqlConnection() async {
+    try {
+      // Connect to the database
+      bool isConnected = await _sqlConnection.connect(
+        ip: serverNameController.value.text,
+        port: '1433',
+        databaseName: dataBaseNameController.value.text,
+        username: userNameController.value.text,
+        password: passwordController.value.text,
+        timeoutInSeconds: 1,
+      );
+
+      if (!isConnected) {
+        Get.snackbar(
+          "Connection failed",
+          "MsSql Server connection failed",
+            colorText: MyAppColors.white,
+            backgroundColor: MyAppColors.error.withOpacity(.5),
+            maxWidth: 400,
+            snackPosition: SnackPosition.BOTTOM,
+            snackStyle: SnackStyle.GROUNDED
+        );
+      }
+
+      // Construct the SQL query with dynamic table name
+      String query =
+          "SELECT * FROM ${tableNameController.value.text} WHERE ${itemCodeController.value.text}= '123'";
+
+      // Prepare the parameters
+      print(query);
+
+      // Execute the query
+      String result = await _sqlConnection.getData(query);
+      print(result);
+
+      Get.snackbar(
+          " Connection success",
+          "MSSql server connected successfully with new this server. Please verify the column names",
+          colorText: MyAppColors.white,
+          backgroundColor: MyAppColors.success.withOpacity(.5),
+          maxWidth: 400,
+          snackPosition: SnackPosition.BOTTOM,
+          snackStyle: SnackStyle.GROUNDED
+      );
+      // Close the connection
+      bool isDisconnected = await _sqlConnection.disconnect();
+    } catch (e) {
+      print('Error fetching product data: $e');
+      Get.snackbar("Server connection Issues", "$e",
+          backgroundColor: MyAppColors.warning.withOpacity(.6),
+          colorText: MyAppColors.white,
+          maxWidth: 400,
+          snackPosition: SnackPosition.BOTTOM,
+          snackStyle: SnackStyle.GROUNDED,duration: const Duration(seconds: 5));
+    }
   }
 }

@@ -34,22 +34,22 @@ class SliderItemController extends GetxController {
 
       /// Version update 1.0.3
       Get.snackbar(
-        "FTP Connection success..",
-        "Please wait for getting images..",
-        backgroundColor: MyAppColors.success.withOpacity(.5),
-        duration: const Duration(milliseconds: 500),
-      );
+          "FTP Connection success..", "Please wait for getting images..",
+          backgroundColor: MyAppColors.success.withOpacity(.5),
+          duration: const Duration(seconds: 4),
+          colorText: MyAppColors.white,
+          snackPosition: SnackPosition.BOTTOM,
+          snackStyle: SnackStyle.FLOATING);
 
       final externalStoragePath = await getExternalStorageDirectory();
       if (externalStoragePath == null) {
-
         /// Version update 1.0.3
-        Get.snackbar(
-          "External Storage not accessible",
-          "",
-          backgroundColor: MyAppColors.warning.withOpacity(.5),
-          duration: const Duration(milliseconds: 500),
-        );
+        Get.snackbar("External Storage not accessible", "",
+            backgroundColor: MyAppColors.warning.withOpacity(.5),
+            duration: const Duration(seconds: 3),
+            colorText: MyAppColors.white,
+            snackPosition: SnackPosition.BOTTOM,
+            snackStyle: SnackStyle.FLOATING);
         return;
       }
 
@@ -60,7 +60,13 @@ class SliderItemController extends GetxController {
 
       final dbHelper = DatabaseHelper();
       await dbHelper.clearImages(); // Clear existing data before inserting new
-
+      Get.snackbar("Please wait....", 'Do not press back or cancel',
+          maxWidth: 300,
+          backgroundColor: MyAppColors.grey,
+          duration: const Duration(seconds: 5),
+          colorText: MyAppColors.black,
+          snackPosition: SnackPosition.BOTTOM,
+          snackStyle: SnackStyle.FLOATING);
       stdout.writeln("Download images one by one");
       for (int i = 0; i <= 20; i++) {
         String? imagePath = await _downloadAndSaveImage(ftpClient, appDir, i);
@@ -71,26 +77,25 @@ class SliderItemController extends GetxController {
       }
 
       stdout.write("Images fetched and saved successfully...");
-    } on FTPConnectException catch (e) {
-
-      /// Version update 1.0.3
-      Get.snackbar(
-        "FTP connection Error.",
-        "$e",
-        backgroundColor: MyAppColors.error.withOpacity(.5),
-        duration: const Duration(milliseconds: 500),
-      );
-    } catch (e) {
-
-      /// Version update 1.0.3
-      Get.snackbar(
-        "Error on ",
-        "Please wait for getting images..$e",
-        backgroundColor: MyAppColors.error.withOpacity(.5),
-        duration: const Duration(milliseconds: 500),
-      );
-    } finally {
       ftpClient.disconnect();
+    } on FTPConnectException catch (e) {
+      /// Version update 1.0.3
+      Get.snackbar("FTP connection Error.", "$e",
+          backgroundColor: MyAppColors.error.withOpacity(.5),
+          duration: const Duration(seconds: 3),
+          colorText: MyAppColors.white,
+          snackPosition: SnackPosition.BOTTOM,
+          snackStyle: SnackStyle.FLOATING);
+    } catch (e) {
+      /// Version update 1.0.3
+      Get.snackbar("Error on ", "$e",
+          backgroundColor: MyAppColors.error.withOpacity(.5),
+          duration: const Duration(seconds: 2),
+          colorText: MyAppColors.white,
+          snackPosition: SnackPosition.BOTTOM,
+          snackStyle: SnackStyle.FLOATING);
+    } finally {
+
 
       /// Version update 1.0.3
       await HelperServices.saveServerData("duration", duration.text);
@@ -157,4 +162,5 @@ class SliderItemController extends GetxController {
     await HelperServices.saveListOfItem(
         StringConstants.imageLinks, imageLinks.value);
   }
+
 }

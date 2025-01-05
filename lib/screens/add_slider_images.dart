@@ -33,11 +33,10 @@ class AddSliderImages extends StatelessWidget {
 
             /// Version update 1.0.3
             CustomTextFieldDesign(
-                label: 'Duration in seconds', controller: controller.duration),
+                label: 'Duration in seconds', controller: controller.duration,textInputType: TextInputType.number,),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: ()async {
-
                await controller.testConnectionFtp();
               },
               child: const Text('Add Link'),

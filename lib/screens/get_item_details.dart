@@ -48,6 +48,7 @@ class GetItemDetails extends StatelessWidget {
         ),
         child: Scaffold(
           endDrawer:  CustomDrawerWidget(onTapAdConfig: ()async{
+           controller.scaffoldKey.currentState?.closeEndDrawer();
             await controller.onPageDistro();
             Get.to(const AddSliderImages());
           },),
@@ -118,7 +119,7 @@ class GetItemDetails extends StatelessWidget {
                         child:CarouselSlider(
 
                           /// Version update 1.0.3 - height width changes
-                          options: CarouselOptions(height: height*.9,autoPlay: true,),
+                          options: CarouselOptions(height: height,autoPlay: true,),
                           items: controller.imageLinks.map((i) {
                             print(i);
                             return Builder(
