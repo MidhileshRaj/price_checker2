@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:http/http.dart' as http;
 import 'package:mssql_connection/mssql_connection.dart';
 import 'package:mysql_client/mysql_client.dart';
@@ -46,28 +48,35 @@ class MainController extends GetxController {
   var productDetailsMap = {}.obs;
 
 
-
+  /// Version update 1.0.3
+  RxInt sliderDuration = 60.obs;
 
   // MySQL connection
   static MySQLConnection? _connection;
-   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   final RxBool showCarousel = false.obs;
   Timer? _inactivityTimer;
 
-
-  openDrawerMethod(){
+  openDrawerMethod() {
     scaffoldKey.currentState?.openEndDrawer();
   }
 
+  /// Version update 1.0.3
+  getDurationOfSlider() async {
+    String duration = await HelperServices.getServerData('duration');
+    if (duration.isNotEmpty) {
+      var time = int.parse(duration);
+      sliderDuration.value = time;
+    }
+  }
 
   /// Inactive Screen saver
   void resetInactivityTimer() {
     _inactivityTimer?.cancel();
     showCarousel.value = false; // Hide carousel if it was showing
-    _inactivityTimer = Timer(const Duration(seconds: 30), () {
-      if(imageLinks.isNotEmpty) {
+    _inactivityTimer = Timer(Duration(seconds: sliderDuration.value), () {
+      if (imageLinks.isNotEmpty) {
         showCarousel.value = true;
         // Show carousel after 1 minute
       }
@@ -79,8 +88,6 @@ class MainController extends GetxController {
     _inactivityTimer?.cancel();
     super.onClose();
   }
-
-
 
   @override
   void onInit() {
@@ -95,11 +102,8 @@ class MainController extends GetxController {
     resetInactivityTimer();
   }
 
-
-
   /// Check Images saved on devices for slide show
   /// Carousel Image fetching
-
 
   Future<void> loadImagesFromDatabase() async {
     final dbHelper = DatabaseHelper();
@@ -107,13 +111,14 @@ class MainController extends GetxController {
     imageLinks.assignAll(savedPaths);
   }
 
-  onPageDistro()async{
+  onPageDistro() async {
     showCarousel.value = false;
-    imageLinks.value =[];
+    imageLinks.value = [];
   }
 
-  checkAvailableImages()async{
-    imageLinks.value = await HelperServices.getListOfItems(StringConstants.imageLinks);
+  checkAvailableImages() async {
+    imageLinks.value =
+        await HelperServices.getListOfItems(StringConstants.imageLinks);
   }
 
   // Scan Barcode Method
@@ -160,9 +165,12 @@ class MainController extends GetxController {
         await HelperServices.getServerData(StringConstants.userName);
     password.value =
         await HelperServices.getServerData(StringConstants.password);
-    itemCodeColumn.value = await HelperServices.getServerData(StringConstants.itemCode);
-    itemNameColumn.value = await HelperServices.getServerData(StringConstants.itemName);
-    itemSalesPriceColumn.value = await HelperServices.getServerData(StringConstants.salesPrice);
+    itemCodeColumn.value =
+        await HelperServices.getServerData(StringConstants.itemCode);
+    itemNameColumn.value =
+        await HelperServices.getServerData(StringConstants.itemName);
+    itemSalesPriceColumn.value =
+        await HelperServices.getServerData(StringConstants.salesPrice);
     table.value = await HelperServices.getServerData(StringConstants.table);
 
     print("${server.value} === ${userName.value} === $table");
@@ -192,9 +200,12 @@ class MainController extends GetxController {
       password.value =
           await HelperServices.getServerData(StringConstants.password);
       table.value = await HelperServices.getServerData(StringConstants.table);
-      itemCodeColumn.value = await HelperServices.getServerData(StringConstants.itemCode);
-      itemNameColumn.value = await HelperServices.getServerData(StringConstants.itemName);
-      itemSalesPriceColumn.value = await HelperServices.getServerData(StringConstants.salesPrice);
+      itemCodeColumn.value =
+          await HelperServices.getServerData(StringConstants.itemCode);
+      itemNameColumn.value =
+          await HelperServices.getServerData(StringConstants.itemName);
+      itemSalesPriceColumn.value =
+          await HelperServices.getServerData(StringConstants.salesPrice);
 
       stdout.writeln("$server---$database--- $userName---$password");
       // Connect to the database
@@ -228,7 +239,6 @@ class MainController extends GetxController {
       // fetch corresponding product details
       var product = data.first;
 
-
       productDetails.value = product[itemNameColumn.value].toString();
       productName.value = product[itemNameColumn.value].toString();
       productID.value = product["id"].toString();
@@ -255,18 +265,16 @@ class MainController extends GetxController {
         // Request the focus node after fetching product
         focusNode.requestFocus();
         hideProductDetails();
-
       } else {
         print('Failed to disconnect from SQL Server');
       }
 
       return json.decode(result);
-
     } catch (e) {
       print('Error fetching product data: $e');
-      productDetails.value= "No product available";
-      productPrice.value= "--";
-      productID.value="" ;
+      productDetails.value = "No product available";
+      productPrice.value = "--";
+      productID.value = "";
       getItemController.text = "";
       focusNode.requestFocus();
       hideProductDetails();
@@ -381,12 +389,11 @@ class MainController extends GetxController {
   }
 
   /// Hide product
-  hideProductDetails(){
-    if (productDetails.value != "No product selected."){
-      Future.delayed(Duration(seconds: 15),(){
-        productDetails.value ="No product selected.";
+  hideProductDetails() {
+    if (productDetails.value != "No product selected.") {
+      Future.delayed(Duration(seconds: 15), () {
+        productDetails.value = "No product selected.";
       });
-
     }
   }
 }

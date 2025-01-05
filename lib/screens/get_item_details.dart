@@ -30,6 +30,7 @@ class GetItemDetails extends StatelessWidget {
 
       controller.loadImagesFromDatabase();
       controller.resetInactivityTimer();
+      controller.getDurationOfSlider();
 
 
     return GestureDetector(
@@ -110,9 +111,14 @@ class GetItemDetails extends StatelessWidget {
                           fit: BoxFit.fill,
                         )
                     ):SizedBox(
-                        height: min(width / 3.3 * (16 / 9),height*.9),
+
+                      /// Version update 1.0.3 - height width changes
+                        height: height,
+                        width:  width,
                         child:CarouselSlider(
-                          options: CarouselOptions(height: height*.8,autoPlay: true,),
+
+                          /// Version update 1.0.3 - height width changes
+                          options: CarouselOptions(height: height*.9,autoPlay: true,),
                           items: controller.imageLinks.map((i) {
                             print(i);
                             return Builder(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ftpconnect/ftpconnect.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:price_checker/utils/constants/colors.dart';
 
 import '../screens/get_item_details.dart';
 import '../utils/helpers/persistance_helper.dart';
@@ -16,8 +17,10 @@ class SliderItemController extends GetxController {
   final TextEditingController ftpServer = TextEditingController();
   final TextEditingController username = TextEditingController();
   final TextEditingController password = TextEditingController();
-  RxBool enableField = true.obs;
 
+  /// Version update 1.0.3
+  final TextEditingController duration = TextEditingController();
+  RxBool enableField = true.obs;
 
   Future<void> testConnectionFtp() async {
     final FTPConnect ftpClient = FTPConnect(
@@ -28,11 +31,25 @@ class SliderItemController extends GetxController {
 
     try {
       await ftpClient.connect();
-      print("Connection Successful...");
+
+      /// Version update 1.0.3
+      Get.snackbar(
+        "FTP Connection success..",
+        "Please wait for getting images..",
+        backgroundColor: MyAppColors.success.withOpacity(.5),
+        duration: const Duration(milliseconds: 500),
+      );
 
       final externalStoragePath = await getExternalStorageDirectory();
       if (externalStoragePath == null) {
-        print("External storage not available.");
+
+        /// Version update 1.0.3
+        Get.snackbar(
+          "External Storage not accessible",
+          "",
+          backgroundColor: MyAppColors.warning.withOpacity(.5),
+          duration: const Duration(milliseconds: 500),
+        );
         return;
       }
 
@@ -54,16 +71,30 @@ class SliderItemController extends GetxController {
       }
 
       stdout.write("Images fetched and saved successfully...");
-
     } on FTPConnectException catch (e) {
-      print("FTP connection error: $e");
+
+      /// Version update 1.0.3
+      Get.snackbar(
+        "FTP connection Error.",
+        "$e",
+        backgroundColor: MyAppColors.error.withOpacity(.5),
+        duration: const Duration(milliseconds: 500),
+      );
     } catch (e) {
-      print("Error: $e");
+
+      /// Version update 1.0.3
+      Get.snackbar(
+        "Error on ",
+        "Please wait for getting images..$e",
+        backgroundColor: MyAppColors.error.withOpacity(.5),
+        duration: const Duration(milliseconds: 500),
+      );
     } finally {
       ftpClient.disconnect();
-      print("FTP disconnected");
-      Get.back();
 
+      /// Version update 1.0.3
+      await HelperServices.saveServerData("duration", duration.text);
+      Get.back();
     }
   }
 
@@ -100,20 +131,19 @@ class SliderItemController extends GetxController {
     return null;
   }
 
-  checkAvailableImages()async{
-    imageLinks.value = await HelperServices.getListOfItems(StringConstants.imageLinks);
+  checkAvailableImages() async {
+    imageLinks.value =
+        await HelperServices.getListOfItems(StringConstants.imageLinks);
   }
-
-
 
   // Add a new image link and save to SharedPreferences
   void addImageLink() async {
     String link = imageLinkController.text;
-    imageLinks.value = await HelperServices.getListOfItems(StringConstants.imageLinks);
+    imageLinks.value =
+        await HelperServices.getListOfItems(StringConstants.imageLinks);
     print("Available images ------- ${imageLinks.length}");
     if (link.isNotEmpty) {
-      if(!imageLinks.contains(link)) {
-
+      if (!imageLinks.contains(link)) {
         imageLinks.add(link);
         print("new Item added....");
         await HelperServices.saveListOfItem(
@@ -123,8 +153,8 @@ class SliderItemController extends GetxController {
   }
 
   removeItemFromList(int index) async {
-  imageLinks.removeAt(index);
-  await HelperServices.saveListOfItem(
-      StringConstants.imageLinks, imageLinks.value);
+    imageLinks.removeAt(index);
+    await HelperServices.saveListOfItem(
+        StringConstants.imageLinks, imageLinks.value);
   }
 }
