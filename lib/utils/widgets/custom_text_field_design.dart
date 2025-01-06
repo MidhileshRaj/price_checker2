@@ -7,7 +7,9 @@ class CustomTextFieldDesign extends StatelessWidget {
       this.hint = "",
       required this.controller,
       this.obscure = false,
-      this.enable= true,  this.textInputType = TextInputType.text});
+      this.enable = true,
+      this.textInputType = TextInputType.text,
+      this.validator});
 
   final String label;
   final String hint;
@@ -15,6 +17,7 @@ class CustomTextFieldDesign extends StatelessWidget {
   final bool obscure;
   final bool enable;
   final TextInputType textInputType;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,7 @@ class CustomTextFieldDesign extends StatelessWidget {
           const Spacer(),
           SizedBox(
             width: MediaQuery.sizeOf(context).width * .5,
-            child: TextField(
+            child: TextFormField(
               enabled: enable,
               obscureText: obscure,
               obscuringCharacter: "*",
@@ -44,6 +47,7 @@ class CustomTextFieldDesign extends StatelessWidget {
                 ),
               ),
               controller: controller,
+              validator: validator,
             ),
           )
         ],
