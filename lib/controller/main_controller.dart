@@ -15,6 +15,7 @@ import 'package:price_checker/utils/constants/api_constans.dart';
 
 import '../utils/helpers/persistance_helper.dart';
 import '../utils/helpers/sqf_lite_helper.dart';
+import '../utils/helpers/text_to_speech_helper.dart';
 import '../utils/string_constants.dart';
 
 class MainController extends GetxController {
@@ -258,6 +259,8 @@ class MainController extends GetxController {
 
       // Close the connection
       bool isDisconnected = await _sqlConnection.disconnect();
+      /// version update for price tts
+      textToSpeechValue("Item price is ${productPrice.value} AED");
 
       if (isDisconnected) {
         print(table.value);
@@ -400,5 +403,11 @@ class MainController extends GetxController {
         productDetails.value = "No product selected.";
       });
     }
+  }
+
+  /// version update for price tts
+  textToSpeechValue(value) {
+    final TextToSpeechHelper ttsHelper = TextToSpeechHelper();
+    ttsHelper.speak("$value");
   }
 }
