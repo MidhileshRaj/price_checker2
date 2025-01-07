@@ -6,4 +6,5 @@ abstract class Routes{
   static const configure = '/configure';
   static const product = '/product';
   static const adImages = '/ad_images';
+  static const adNetworkImages = '/ad_network_images';
 }

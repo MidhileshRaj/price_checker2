@@ -6,9 +6,10 @@ import 'package:price_checker/utils/constants/colors.dart';
 import '../configuration_screen.dart';
 
 class CustomDrawerWidget extends StatelessWidget {
-  const CustomDrawerWidget({super.key, this.onTapAdConfig});
+  const CustomDrawerWidget({super.key, this.onTapAdConfig, this.onTapConfig});
 
  final VoidCallback? onTapAdConfig;
+ final VoidCallback? onTapConfig;
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +35,7 @@ class CustomDrawerWidget extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.cloud_done_sharp),
             title: const Text('Server Configurations.'),
-            onTap: () {
-              Get.to(() => const ConfigurationScreen());
-            },
+            onTap: onTapConfig,
           ),
           ListTile(
             leading: const Icon(Icons.live_tv_rounded),

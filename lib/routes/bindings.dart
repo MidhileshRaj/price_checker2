@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:price_checker/controller/add_network_images_controller.dart';
 import 'package:price_checker/controller/configuration_controller.dart';
 import 'package:price_checker/controller/main_controller.dart';
 import 'package:price_checker/controller/slider_item_controller.dart';
@@ -10,6 +11,7 @@ class MyAppBindings implements Bindings{
     Get.lazyPut(() => ConfigurationController(),);
     Get.lazyPut(() => MainController(),);
     Get.lazyPut(() => SliderItemController(),);
+    Get.lazyPut(() => AddNetworkImagesController(),);
 
   }
 }

@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:price_checker/screens/add_network_images.dart';
 import 'package:price_checker/screens/add_slider_images.dart';
+import 'package:price_checker/screens/configuration_screen.dart';
 import 'package:price_checker/screens/widget/custom_drawer_widget.dart';
 import 'package:price_checker/utils/constants/image_strings.dart';
 import 'package:price_checker/utils/devices/device_utilities.dart';
@@ -51,7 +54,12 @@ class GetItemDetails extends StatelessWidget {
             onTapAdConfig: () async {
               controller.scaffoldKey.currentState?.closeEndDrawer();
               await controller.onPageDistro();
-              Get.to(const AddSliderImages());
+              Get.to(()=>const AddNetworkImages());
+            },
+            onTapConfig: ()async{
+               controller.showCarousel.value= false;
+              Get.to(const ConfigurationScreen());
+
             },
           ),
           key: screenController.scaffoldKey,
@@ -140,12 +148,13 @@ class GetItemDetails extends StatelessWidget {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 5.0),
                                               decoration: const BoxDecoration(
-                                                  color: Colors.amber),
-                                              child: Image(
-                                                image: FileImage(
-                                                    File(i.toString())),
-                                                fit: BoxFit.cover,
-                                              ));
+                                                  color: Colors.transparent),
+                                              child: CachedNetworkImage(
+                                                imageUrl: i,
+                                                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                    Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
+                                                errorWidget: (context, url, error) => const Icon(Icons.error),
+                                              ),);
                                         },
                                       );
                                     }).toList(),
@@ -229,7 +238,7 @@ class GetItemDetails extends StatelessWidget {
                   controller.showCarousel.value
                       ? const SizedBox()
                       : Positioned(
-                          bottom: 90,
+                          bottom:90,
                           left: height * .1,
                           right: width * .1,
                           child: OutPutWidget(

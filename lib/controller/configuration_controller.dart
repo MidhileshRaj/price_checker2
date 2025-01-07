@@ -173,6 +173,13 @@ class ConfigurationController extends GetxController {
 
        // Close the connection
        bool isDisconnected = await _sqlConnection.disconnect();
+       Get.snackbar(" Connection success",
+           "MSSql server connected successfully with new this server. Please verify the column names.,",
+           colorText: MyAppColors.white,
+           backgroundColor: MyAppColors.success.withOpacity(.5),
+           maxWidth: 400,
+           snackPosition: SnackPosition.BOTTOM,
+           snackStyle: SnackStyle.GROUNDED);
 
      } catch (e) {
        Get.snackbar("Server connection Issues", "$e",
