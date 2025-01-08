@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -7,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:price_checker/screens/add_network_images.dart';
-import 'package:price_checker/screens/add_slider_images.dart';
 import 'package:price_checker/screens/configuration_screen.dart';
 import 'package:price_checker/screens/widget/custom_drawer_widget.dart';
 import 'package:price_checker/utils/constants/image_strings.dart';

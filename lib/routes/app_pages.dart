@@ -19,10 +19,6 @@ class AppPages {
       page: () => const GetItemDetails(),
       binding: MyAppBindings(),
     ),GetPage(
-      name: Routes.adImages,
-      page: () =>  const AddSliderImages(),
-      binding: MyAppBindings(),
-    ),GetPage(
       name: Routes.adNetworkImages,
       page: () =>  const AddNetworkImages(),
       binding: MyAppBindings(),

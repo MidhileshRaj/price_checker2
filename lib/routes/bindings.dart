@@ -10,7 +10,6 @@ class MyAppBindings implements Bindings{
     // TODO: implement dependencies
     Get.lazyPut(() => ConfigurationController(),);
     Get.lazyPut(() => MainController(),);
-    Get.lazyPut(() => SliderItemController(),);
     Get.lazyPut(() => AddNetworkImagesController(),);
 
   }

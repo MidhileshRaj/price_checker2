@@ -21,133 +21,112 @@ class ConfigurationScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
-          child: Obx(() => Form(
-            key: controller.formKey,
-            child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Database Config.",
-                      style: TextStyle(
-                        color: MyAppColors.primary,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic,
+          child: Obx(() => Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Database Config.",
+                    style: TextStyle(
+                      color: MyAppColors.primary,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                  CustomTextFieldDesign(
+                    enable: controller.enableTextField.value,
+                    label: 'Server name',
+                    hint: '192.168.100.75',
+                    controller: controller.serverNameController.value,
+                  ),
+                  CustomTextFieldDesign(
+                    enable: controller.enableTextField.value,
+                    label: 'Database Name',
+                    hint: 'TechSysDB',
+                    controller: controller.dataBaseNameController.value,
+                  ),
+                  CustomTextFieldDesign(
+                    enable: controller.enableTextField.value,
+                    label: 'Table Name',
+                    hint: 'Products',
+                    controller: controller.tableNameController.value,
+                  ),
+                  CustomTextFieldDesign(
+                    label: 'Username',
+                    hint: 'root',
+                    controller: controller.userNameController.value,
+                  ),
+                  CustomTextFieldDesign(
+                    label: 'Password',
+                    hint: '12345678',
+                    controller: controller.passwordController.value,
+                  ),
+                  const SizedBox(height: 20),
+
+                  ButtonWidget(
+                    text: "Test Server",
+                    onClicked: () async {
+                      await controller.testMsSqlServer();
+                    },
+                  ),
+                  const SizedBox(height: 20),
+
+                  /// Table Column Details
+                  const Text(
+                    "Column details",
+                    style: TextStyle(
+                      color: MyAppColors.primary,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+                  CustomTextFieldDesign(
+                    label: 'Barcode Column',
+                    hint: 'eg:- product_code',
+                    controller: controller.itemCodeController.value,
+                  ),
+                  CustomTextFieldDesign(
+                    label: 'Product Name Column',
+                    hint: 'eg:- itemName',
+                    controller: controller.nameColumnController.value,
+                  ),
+                  CustomTextFieldDesign(
+                    label: 'Price Column',
+                    hint: 'eg:- itemPrice',
+                    controller: controller.priceColumnController.value,
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ButtonWidget(
+                        text: "Test Connection",
+                        onClicked: () async {
+                          await controller.testMsSqlConnection();
+                        },
                       ),
-                    ),
-                    CustomTextFieldDesign(
-                      enable: controller.enableTextField.value,
-                      label: 'Server name',
-                      hint: '192.168.100.75',
-                      controller: controller.serverNameController.value,
-                    ),
-                    CustomTextFieldDesign(
-                      enable: controller.enableTextField.value,
-                      label: 'Database Name',
-                      hint: 'TechSysDB',
-                      controller: controller.dataBaseNameController.value,
-                    ),
-                    CustomTextFieldDesign(
-                      enable: controller.enableTextField.value,
-                      label: 'Table Name',
-                      hint: 'Products',
-                      controller: controller.tableNameController.value,
-                    ),
-                    CustomTextFieldDesign(
-                      label: 'Username',
-                      hint: 'root',
-                      controller: controller.userNameController.value,
-                    ),
-                    CustomTextFieldDesign(
-                      label: 'Password',
-                      hint: '12345678',
-                      controller: controller.passwordController.value,
-                    ),
-                    const SizedBox(height: 20),
-
-                    ButtonWidget(
-                      text: "Test Server",
-                      onClicked: () async {
-                        await controller.testMsSqlServer();
-                      },
-                    ),
-                    const SizedBox(height: 20),
-
-                    /// Table Column Details
-                    const Text(
-                      "Column details",
-                      style: TextStyle(
-                        color: MyAppColors.primary,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                      const SizedBox(width: 20),
+                      ButtonWidget(
+                        text: "Configure",
+                        onClicked: () async {
+                          await controller.saveConfiguration();
+                          Get.to(() => const GetItemDetails());
+                        },
                       ),
-                    ),
-
-                    const SizedBox(height: 10),
-                    CustomTextFieldDesign(
-                      label: 'Barcode Column',
-                      hint: 'eg:- product_code',
-                      controller: controller.itemCodeController.value,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "This cannot be empty";
-                        }
-                        return null;
-                      },
-                    ),
-                    CustomTextFieldDesign(
-                      label: 'Product Name Column',
-                      hint: 'eg:- itemName',
-                      controller: controller.nameColumnController.value,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "This cannot be empty";
-                        }
-                        return null;
-                      },
-                    ),
-                    CustomTextFieldDesign(
-                      label: 'Price Column',
-                      hint: 'eg:- itemPrice',
-                      controller: controller.priceColumnController.value,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "This cannot be empty";
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ButtonWidget(
-                          text: "Test Connection",
-                          onClicked: () async {
-                            await controller.testMsSqlConnection();
-                          },
-                        ),
-                        const SizedBox(width: 20),
-                        ButtonWidget(
-                          text: "Configure",
-                          onClicked: () async {
-                            await controller.saveConfiguration();
-                            Get.to(() => const GetItemDetails());
-                          },
-                        ),
-                        const SizedBox(width: 20),
-                        ButtonWidget(
-                          text: "Reset",
-                          onClicked: () async {
-                            await HelperServices.setConfiguration(false);
-                            controller.configurePageInitialization();
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-          )),
+                      const SizedBox(width: 20),
+                      ButtonWidget(
+                        text: "Reset",
+                        onClicked: () async {
+                          await HelperServices.setConfiguration(false);
+                          controller.configurePageInitialization();
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              )),
         ),
       ),
     );
